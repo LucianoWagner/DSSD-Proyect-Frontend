@@ -163,7 +163,7 @@ export default async function ProyectoDetailPage({ params }: PageProps) {
 										Creado
 									</p>
 									<p className="font-semibold text-sm">
-										{formatDate(proyecto.fecha_creacion)}
+										{formatDate(proyecto.created_at)}
 									</p>
 								</div>
 							</div>
@@ -243,7 +243,7 @@ export default async function ProyectoDetailPage({ params }: PageProps) {
 									Fecha de Creación
 								</p>
 								<p className="font-semibold">
-									{formatDateTime(proyecto.fecha_creacion)}
+									{formatDateTime(proyecto.created_at)}
 								</p>
 							</div>
 							<div>
@@ -251,7 +251,7 @@ export default async function ProyectoDetailPage({ params }: PageProps) {
 									Última Actualización
 								</p>
 								<p className="font-semibold">
-									{formatDateTime(proyecto.fecha_actualizacion)}
+									{formatDateTime(proyecto.updated_at)}
 								</p>
 							</div>
 						</CardContent>

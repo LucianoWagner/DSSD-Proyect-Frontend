@@ -1,5 +1,3 @@
-import { TriggerConfig } from "react-hook-form";
-
 export type TipoPedidoCobertura =
 	| "economico"
 	| "materiales"

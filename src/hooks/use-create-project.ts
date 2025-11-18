@@ -23,14 +23,17 @@ export function useCreateProject() {
 
 				// Handle HTTP errors
 				if (error) {
-					throw createApiError(error, response.status ?? 500, response);
+					const status = response?.status ?? 500;
+					throw createApiError(error, status, response);
 				}
 
 				// Validate response data
+
 				if (!data) {
+					const status = 500;
 					throw createApiError(
 						{ message: "No data received from server" },
-						response.status ?? 500,
+						status,
 						response
 					);
 				}

@@ -12,7 +12,33 @@ import {
 	Target,
 	TrendingUp,
 	Workflow,
+	BarChart3,
+	FileText,
+	Shield,
+	Search,
+	Heart,
+	type LucideIcon,
 } from "lucide-react";
+import type { Role } from "@/types/auth";
+
+export interface NavSubItem {
+	title: string;
+	url: string;
+	icon: LucideIcon;
+	badge?: string;
+}
+
+export interface NavItem {
+	title: string;
+	url?: string;
+	icon: LucideIcon;
+	badge?: string;
+	items?: NavSubItem[];
+	roles?: Role[]; // If undefined, visible to all roles
+}
+
+// MEMBER (ONGs) - Can collaborate, create projects, manage their projects
+// COUNCIL (Directivos) - Can view metrics, make observations, review all projects
 
 export const SIDEBAR_ITEMS = {
 	navMain: [
@@ -20,15 +46,22 @@ export const SIDEBAR_ITEMS = {
 			title: "Dashboard",
 			url: "/dashboard",
 			icon: LayoutDashboard,
+			// Visible to all roles
 		},
 		{
 			title: "Proyectos",
 			icon: FolderOpen,
+			roles: ["MEMBER"], // Only MEMBER can create/manage projects
 			items: [
 				{
 					title: "Todos los Proyectos",
 					url: "/proyectos",
 					icon: FolderOpen,
+				},
+				{
+					title: "Ofertas Recibidas",
+					url: "/proyectos/ofertas",
+					icon: HandHeart,
 				},
 				{
 					title: "Nuevo proyecto",
@@ -51,48 +84,115 @@ export const SIDEBAR_ITEMS = {
 		},
 		{
 			title: "Colaboraciones",
-			icon: HandHeart, // 🤝❤️ Mano con corazón (ayuda)
+			icon: HandHeart,
+			roles: ["MEMBER"], // Only MEMBER can collaborate
 			items: [
 				{
-					title: "Pedidos Activos",
-					url: "/pedidos",
-					icon: Target, // 🎯 Objetivo/meta
-					badge: "5",
+					title: "Explorar Proyectos",
+					url: "/colaboraciones",
+					icon: Search,
+					// badge: "12", // Optional: count de proyectos disponibles
 				},
 				{
 					title: "Mis Compromisos",
-					url: "/compromisos",
-					icon: CheckCircle2, // ✅ Check círculo
+					url: "/colaboraciones/compromisos",
+					icon: Heart,
+					// badge: "3", // Optional: count de compromisos activos
+				},
+				{
+					title: "Pedidos Activos",
+					url: "/pedidos",
+					icon: Target,
+					badge: "5",
 				},
 				{
 					title: "Notificaciones",
 					url: "/notificaciones",
-					icon: Bell, // 🔔 Campana clásica
+					icon: Bell,
 					badge: "3",
 				},
 			],
 		},
 		{
 			title: "Seguimiento",
-			icon: Eye, // 👁️ Ojo para vigilar/monitorear
+			icon: Eye,
+			roles: ["MEMBER"], // Only MEMBER tracks their projects
 			items: [
 				{
 					title: "Proyectos en Curso",
 					url: "/seguimiento/proyectos",
-					icon: TrendingUp, // 📈 Tendencia hacia arriba
+					icon: TrendingUp,
 				},
 				{
 					title: "Control Quincenal",
 					url: "/seguimiento/control",
-					icon: Calendar, // 📅 Calendario
+					icon: Calendar,
 					badge: "2",
 				},
 				{
 					title: "Cronograma",
 					url: "/seguimiento/cronograma",
-					icon: Clock, // 🕐 Reloj simple
+					icon: Clock,
 				},
 			],
 		},
-	],
+		{
+			title: "Métricas",
+			icon: BarChart3,
+			roles: ["COUNCIL"], // Only COUNCIL can view metrics
+			items: [
+				{
+					title: "Resumen General",
+					url: "/metricas/resumen",
+					icon: BarChart3,
+				},
+				{
+					title: "Proyectos por ONG",
+					url: "/metricas/por-ong",
+					icon: TrendingUp,
+				},
+				{
+					title: "Reportes",
+					url: "/metricas/reportes",
+					icon: FileText,
+				},
+			],
+		},
+		{
+			title: "Observaciones",
+			icon: FileText,
+			roles: ["COUNCIL"], // Only COUNCIL can make observations
+			items: [
+				{
+					title: "Todas las Observaciones",
+					url: "/observaciones",
+					icon: FileText,
+				},
+				{
+					title: "Pendientes de Revisión",
+					url: "/observaciones/pendientes",
+					icon: Clock,
+					badge: "7",
+				},
+			],
+		},
+		{
+			title: "Revisión de Proyectos",
+			icon: Shield,
+			roles: ["COUNCIL"], // Only COUNCIL can review all projects
+			items: [
+				{
+					title: "Todos los Proyectos",
+					url: "/revision/proyectos",
+					icon: FolderOpen,
+				},
+				{
+					title: "Aprobaciones Pendientes",
+					url: "/revision/aprobaciones",
+					icon: CheckCircle2,
+					badge: "4",
+				},
+			],
+		},
+	] as NavItem[],
 };

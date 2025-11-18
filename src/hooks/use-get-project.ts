@@ -29,14 +29,18 @@ export function useGetProject(projectId: string) {
 
 				// Handle HTTP errors
 				if (error) {
-					throw createApiError(error, response.status ?? 500, response);
+					throw createApiError(
+						error,
+						response.status ?? 500,
+						response
+					);
 				}
 
 				// Validate response data
 				if (!data) {
 					throw createApiError(
 						{ message: "No data received from server" },
-						response.status ?? 500,
+						500,
 						response
 					);
 				}
@@ -99,11 +103,7 @@ export async function getProject(projectId: string): Promise<GetProjectOutput> {
 	}
 
 	if (!data) {
-		throw createApiError(
-			{ message: "Project not found" },
-			404,
-			response
-		);
+		throw createApiError({ message: "Project not found" }, 404, response);
 	}
 
 	return data as GetProjectOutput;

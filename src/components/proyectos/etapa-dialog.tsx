@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useFormContext, useFieldArray } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import {
 	Dialog,
 	DialogContent,
@@ -12,10 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import {
 	FormControl,
-	FormField,
-	FormItem,
 	FormLabel,
-	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -112,7 +109,7 @@ export function EtapaDialog({
 		onOpenChange(false);
 	};
 
-	const updateEtapaField = (field: keyof EtapaFormValues, value: any) => {
+	const updateEtapaField = (field: keyof EtapaFormValues, value: string | number | Date) => {
 		setCurrentEtapa((prev) => ({ ...prev, [field]: value }));
 
 		// Clear date error when dates change
@@ -139,7 +136,7 @@ export function EtapaDialog({
 		return true;
 	};
 
-	const updatePedidos = (pedidos: any[]) => {
+	const updatePedidos = (pedidos: EtapaFormValues['pedidos']) => {
 		setCurrentEtapa((prev) => ({ ...prev, pedidos }));
 	};
 
