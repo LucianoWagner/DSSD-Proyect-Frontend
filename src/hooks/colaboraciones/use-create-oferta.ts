@@ -44,7 +44,7 @@ export function useCreateOferta() {
     },
     onSuccess: (data, variables) => {
       // Invalidate queries relacionadas
-      queryClient.invalidateQueries({ queryKey: ["ofertas", "mis-compromisos"] });
+      queryClient.invalidateQueries({ queryKey: ["ofertas", "mis-ofertas"] });
       queryClient.invalidateQueries({ queryKey: ["projects"] });
       queryClient.invalidateQueries({ queryKey: ["pedidos", variables.pedidoId, "ofertas"] });
 

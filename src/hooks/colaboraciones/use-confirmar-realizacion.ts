@@ -44,7 +44,7 @@ export function useConfirmarRealizacion() {
     },
     onSuccess: () => {
       // Invalidate all related queries
-      queryClient.invalidateQueries({ queryKey: ["ofertas", "mis-compromisos"] });
+      queryClient.invalidateQueries({ queryKey: ["ofertas", "mis-ofertas"] });
       queryClient.invalidateQueries({ queryKey: ["ofertas", "activos-count"] });
       queryClient.invalidateQueries({ queryKey: ["projects"] });
       queryClient.invalidateQueries({ queryKey: ["pedidos"] });

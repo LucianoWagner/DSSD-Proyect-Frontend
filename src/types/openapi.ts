@@ -252,15 +252,51 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/ofertas/mis-compromisos": {
+    "/api/v1/ofertas/mis-ofertas": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** List My Compromisos */
-        get: operations["list_my_compromisos_api_v1_ofertas_mis_compromisos_get"];
+        /** List My Ofertas */
+        get: operations["list_my_ofertas_api_v1_ofertas_mis_ofertas_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/ofertas/{oferta_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Oferta */
+        get: operations["get_oferta_api_v1_ofertas__oferta_id__get"];
+        put?: never;
+        post?: never;
+        /** Delete Oferta */
+        delete: operations["delete_oferta_api_v1_ofertas__oferta_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Oferta */
+        patch: operations["update_oferta_api_v1_ofertas__oferta_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/users/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Current User */
+        get: operations["get_current_user_api_v1_users_me_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -724,8 +760,50 @@ export interface components {
             council_user_nombre?: string | null;
         };
         /**
+         * EtapaBasicInfo
+         * @description Basic etapa information for nested responses.
+         */
+        EtapaBasicInfo: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Nombre */
+            nombre: string;
+            /** Estado */
+            estado: string;
+        };
+        /**
+         * PedidoDetailedInfo
+         * @description Detailed pedido information with nested etapa.
+         */
+        PedidoDetailedInfo: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Tipo */
+            tipo: string;
+            /** Descripcion */
+            descripcion: string;
+            /** Estado */
+            estado: string;
+            /** Monto */
+            monto?: number | null;
+            /** Moneda */
+            moneda?: string | null;
+            /** Cantidad */
+            cantidad?: number | null;
+            /** Unidad */
+            unidad?: string | null;
+            /** Etapa */
+            etapa: components["schemas"]["EtapaBasicInfo"];
+        };
+        /**
          * OfertaCompromisoResponse
-         * @description Oferta that includes nested pedido information.
+         * @description Oferta with detailed nested pedido and etapa information.
          */
         OfertaCompromisoResponse: {
             /**
@@ -759,8 +837,8 @@ export interface components {
              * Format: date-time
              */
             updated_at: string;
-            user?: components["schemas"]["OfertaUserSummary"] | null;
-            pedido: components["schemas"]["PedidoResponse"];
+            /** Pedido */
+            pedido: components["schemas"]["PedidoDetailedInfo"];
         };
         /**
          * OfertaConfirmationResponse
@@ -1656,11 +1734,11 @@ export interface operations {
             };
         };
     };
-    list_my_compromisos_api_v1_ofertas_mis_compromisos_get: {
+    list_my_ofertas_api_v1_ofertas_mis_ofertas_get: {
         parameters: {
             query?: {
-                /** @description Filter commitments by pedido state */
-                estado_pedido?: string | null;
+                /** @description Filter offers by offer state (pendiente, aceptada, rechazada) */
+                estado_oferta?: "pendiente" | "aceptada" | "rechazada" | null;
             };
             header?: never;
             path?: never;
@@ -1684,6 +1762,151 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_oferta_api_v1_ofertas__oferta_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oferta_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfertaResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_oferta_api_v1_ofertas__oferta_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oferta_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    descripcion?: string;
+                    monto_ofrecido?: number;
+                };
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfertaResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_oferta_api_v1_ofertas__oferta_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oferta_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_current_user_api_v1_users_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: string;
+                        email: string;
+                        nombre: string;
+                        apellido: string;
+                        ong: string;
+                        role: "ADMIN" | "MEMBER" | "REVIEWER";
+                        created_at: string;
+                        updated_at: string;
+                    };
                 };
             };
         };

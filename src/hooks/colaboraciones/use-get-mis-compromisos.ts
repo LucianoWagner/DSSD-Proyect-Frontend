@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * Hook para obtener mis compromisos (ofertas enviadas)
- * GET /api/v1/ofertas/mis-compromisos
+ * Hook para obtener mis ofertas (ofertas enviadas)
+ * GET /api/v1/ofertas/mis-ofertas
  */
 
 import { useQuery } from "@tanstack/react-query";
@@ -15,20 +15,24 @@ import type {
 } from "@/types/colaboraciones";
 
 /**
- * Obtener mis compromisos (ofertas que he enviado)
- * Filtrable por estado del pedido
+ * Obtener mis ofertas (ofertas que he enviado)
+ * Filtrable por estado de la oferta
  */
 export function useGetMisCompromisos(filters: CompromisosFilters = {}) {
   return useQuery({
-    queryKey: ["ofertas", "mis-compromisos", filters],
+    queryKey: ["ofertas", "mis-ofertas", filters],
     queryFn: async (): Promise<CompromisoWithPedido[]> => {
+      // Only include estado_oferta if it has a value
+      const queryParams: { estado_oferta?: string } = {};
+      if (filters.estado_oferta) {
+        queryParams.estado_oferta = filters.estado_oferta;
+      }
+
       const { data, error, response } = await apiClient.GET(
-        "/api/v1/ofertas/mis-compromisos",
+        "/api/v1/ofertas/mis-ofertas",
         {
           params: {
-            query: {
-              estado_pedido: filters.estado_pedido,
-            },
+            query: queryParams,
           },
         }
       );
@@ -45,7 +49,7 @@ export function useGetMisCompromisos(filters: CompromisosFilters = {}) {
 }
 
 /**
- * Hook para obtener estadísticas de mis compromisos
+ * Hook para obtener estadísticas de mis ofertas
  * Útil para badges y contadores
  */
 export function useGetCompromisosStats() {
@@ -56,7 +60,6 @@ export function useGetCompromisosStats() {
       total: 0,
       pendientes: 0,
       aceptadas: 0,
-      completadas: 0,
       rechazadas: 0,
     };
   }
@@ -64,12 +67,7 @@ export function useGetCompromisosStats() {
   const stats = {
     total: allCompromisos.length,
     pendientes: allCompromisos.filter((c) => c.estado === "pendiente").length,
-    aceptadas: allCompromisos.filter(
-      (c) => c.estado === "aceptada" && c.pedido.estado === "COMPROMETIDO"
-    ).length,
-    completadas: allCompromisos.filter(
-      (c) => c.pedido.estado === "COMPLETADO"
-    ).length,
+    aceptadas: allCompromisos.filter((c) => c.estado === "aceptada").length,
     rechazadas: allCompromisos.filter((c) => c.estado === "rechazada").length,
   };
 
@@ -78,13 +76,16 @@ export function useGetCompromisosStats() {
 
 /**
  * Hook para filtrar compromisos por estado
- * Versión client-side del filtrado para tabs
+ * Usa filtrado server-side para estado_oferta y client-side para estado_pedido
  */
 export function useFilteredCompromisos(
   estadoPedido?: EstadoPedido,
   estadoOferta?: "pendiente" | "aceptada" | "rechazada"
 ) {
-  const { data: allCompromisos, ...rest } = useGetMisCompromisos();
+  // Pass estado_oferta to the API for server-side filtering
+  const { data: allCompromisos, ...rest } = useGetMisCompromisos({
+    estado_oferta: estadoOferta,
+  });
 
   if (!allCompromisos) {
     return { data: [], ...rest };
@@ -92,21 +93,16 @@ export function useFilteredCompromisos(
 
   let filtered = allCompromisos;
 
-  // Filter by pedido estado
+  // Filter by pedido estado (client-side only if needed)
   if (estadoPedido) {
     filtered = filtered.filter((c) => c.pedido.estado === estadoPedido);
-  }
-
-  // Filter by oferta estado
-  if (estadoOferta) {
-    filtered = filtered.filter((c) => c.estado === estadoOferta);
   }
 
   return { data: filtered, ...rest };
 }
 
 /**
- * Hook para obtener count de compromisos pendientes de acción
+ * Hook para obtener count de ofertas aceptadas activas
  * Útil para badge en sidebar
  */
 export function useCompromisosActivosCount() {
@@ -114,11 +110,11 @@ export function useCompromisosActivosCount() {
     queryKey: ["ofertas", "activos-count"],
     queryFn: async (): Promise<number> => {
       const { data, error, response } = await apiClient.GET(
-        "/api/v1/ofertas/mis-compromisos",
+        "/api/v1/ofertas/mis-ofertas",
         {
           params: {
             query: {
-              estado_pedido: "COMPROMETIDO",
+              estado_oferta: "aceptada",
             },
           },
         }

@@ -103,15 +103,19 @@ export interface ProyectoDetalle extends ProyectoBasic {
  * Usado en página "Mis Compromisos"
  */
 export interface CompromisoWithPedido extends Oferta {
-  pedido: PedidoBasic & {
-    proyecto?: {
-      id: string;
-      titulo: string;
-      estado: string;
-    };
-    etapa?: {
+  pedido: {
+    id: string;
+    tipo: string;
+    descripcion: string;
+    estado: EstadoPedido;
+    monto?: number | null;
+    moneda?: string | null;
+    cantidad?: number | null;
+    unidad?: string | null;
+    etapa: {
       id: string;
       nombre: string;
+      estado: string;
     };
   };
 }
@@ -161,7 +165,6 @@ export type ProjectListResponse = PaginatedResponse<ProyectoBasic>;
  * Filtros para compromisos
  */
 export interface CompromisosFilters {
-  estado_pedido?: EstadoPedido;
   estado_oferta?: EstadoOferta;
 }
 

@@ -6,7 +6,6 @@
  */
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useFilteredCompromisos, useGetCompromisosStats } from "@/hooks/colaboraciones/use-get-mis-compromisos";
 import { CompromisoCard } from "@/components/colaboraciones/compromiso-card";
 import { ConfirmarRealizacionDialog } from "@/components/colaboraciones/confirmar-realizacion-dialog";
@@ -18,10 +17,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import type { EstadoPedido, EstadoOferta } from "@/types/colaboraciones";
 
-type TabValue = "todos" | "pendientes" | "aceptadas" | "completadas" | "rechazadas";
+type TabValue = "todos" | "pendientes" | "aceptadas" | "rechazadas";
 
 export default function CompromisosPage() {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabValue>("todos");
   const [selectedOfertaId, setSelectedOfertaId] = useState<string | null>(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
@@ -36,9 +34,7 @@ export default function CompromisosPage() {
       case "pendientes":
         return { estadoOferta: "pendiente" };
       case "aceptadas":
-        return { estadoPedido: "COMPROMETIDO" as EstadoPedido };
-      case "completadas":
-        return { estadoPedido: "COMPLETADO" as EstadoPedido };
+        return { estadoOferta: "aceptada" };
       case "rechazadas":
         return { estadoOferta: "rechazada" };
       default:
@@ -56,10 +52,6 @@ export default function CompromisosPage() {
     setSelectedOfertaId(ofertaId);
     setSelectedPedidoDesc(pedidoDesc);
     setConfirmDialogOpen(true);
-  };
-
-  const handleVerProyecto = (projectId: string) => {
-    router.push(`/proyectos/${projectId}`);
   };
 
   return (
@@ -82,7 +74,7 @@ export default function CompromisosPage() {
       )}
 
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as TabValue)}>
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="todos">
             Todos
             {stats.total > 0 && (
@@ -107,14 +99,6 @@ export default function CompromisosPage() {
               </Badge>
             )}
           </TabsTrigger>
-          <TabsTrigger value="completadas">
-            Completadas
-            {stats.completadas > 0 && (
-              <Badge variant="outline" className="ml-2">
-                {stats.completadas}
-              </Badge>
-            )}
-          </TabsTrigger>
           <TabsTrigger value="rechazadas">
             Rechazadas
             {stats.rechazadas > 0 && (
@@ -135,14 +119,14 @@ export default function CompromisosPage() {
         )}
 
         {/* Tabs content */}
-        {["todos", "pendientes", "aceptadas", "completadas", "rechazadas"].map((tab) => (
+        {["todos", "pendientes", "aceptadas", "rechazadas"].map((tab) => (
           <TabsContent key={tab} value={tab} className="mt-6">
             {!isLoading && compromisos && compromisos.length === 0 && (
               <EmptyState
                 type={tab === "todos" ? "no-compromisos" : "no-compromisos-filter"}
                 onAction={
                   tab === "todos"
-                    ? () => router.push("/colaboraciones")
+                    ? () => window.location.href = "/colaboraciones"
                     : undefined
                 }
                 actionLabel={tab === "todos" ? "Explorar Proyectos" : undefined}
@@ -163,12 +147,6 @@ export default function CompromisosPage() {
                               compromiso.id,
                               `${compromiso.pedido.tipo} - ${compromiso.pedido.descripcion}`
                             )
-                        : undefined
-                    }
-                    onVerProyecto={
-                      compromiso.pedido.proyecto
-                        ? () =>
-                            handleVerProyecto(compromiso.pedido.proyecto!.id)
                         : undefined
                     }
                   />
