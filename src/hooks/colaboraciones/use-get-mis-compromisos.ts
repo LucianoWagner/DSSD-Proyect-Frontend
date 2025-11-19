@@ -23,7 +23,7 @@ export function useGetMisCompromisos(filters: CompromisosFilters = {}) {
     queryKey: ["ofertas", "mis-ofertas", filters],
     queryFn: async (): Promise<CompromisoWithPedido[]> => {
       // Only include estado_oferta if it has a value
-      const queryParams: { estado_oferta?: string } = {};
+      const queryParams: { estado_oferta?: "pendiente" | "aceptada" | "rechazada" } = {};
       if (filters.estado_oferta) {
         queryParams.estado_oferta = filters.estado_oferta;
       }

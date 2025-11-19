@@ -29,9 +29,6 @@ apiClient.use({
 			const accessToken = localStorage.getItem("access_token");
 			if (accessToken) {
 				request.headers.set("Authorization", `Bearer ${accessToken}`);
-				console.log("[apiClient] Authorization header added to request:", request.url);
-			} else {
-				console.warn("[apiClient] No access token found in localStorage for request:", request.url);
 			}
 		}
 		return request;

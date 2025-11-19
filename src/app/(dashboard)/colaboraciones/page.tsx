@@ -14,7 +14,7 @@ import { EmptyState } from "@/components/colaboraciones/empty-state";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { AlertCircle, ChevronLeft, ChevronRight, Search, Heart } from "lucide-react";
 import type { ProjectListFilters } from "@/types/colaboraciones";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -60,11 +60,22 @@ export default function IntercambiosPage() {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Explorar Proyectos</h1>
-        <p className="text-muted-foreground">
-          Descubre proyectos de otras ONGs y envía ofertas para colaborar
-        </p>
+      {/* Header con diferenciación visual */}
+      <div className="relative rounded-lg bg-gradient-to-r from-secondary/20 via-secondary/10 to-transparent p-6 border border-secondary/30 mb-6">
+        <div className="flex items-start gap-3">
+          <div className="p-2 bg-secondary/20 rounded-lg">
+            <Search className="h-6 w-6 text-secondary-foreground" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <h1 className="text-3xl font-bold">Explorar Proyectos</h1>
+              <Heart className="h-5 w-5 text-secondary-foreground fill-current opacity-70" />
+            </div>
+            <p className="text-muted-foreground">
+              Descubrí proyectos de otras ONGs y enviá ofertas de colaboración para ayudar
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">

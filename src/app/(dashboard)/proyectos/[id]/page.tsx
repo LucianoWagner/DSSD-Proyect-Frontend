@@ -1,8 +1,13 @@
-import { getProject } from "@/lib/projects";
+"use client";
+
+import { use } from "react";
+import { useGetProjectDetail } from "@/hooks/colaboraciones/use-get-project-detail";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
 	MapPin,
 	Calendar,
@@ -22,9 +27,9 @@ interface PageProps {
 	params: Promise<{ id: string }>;
 }
 
-export default async function ProyectoDetailPage({ params }: PageProps) {
-	const { id } = await params;
-	const proyecto = await getProject(id);
+export default function ProyectoDetailPage({ params }: PageProps) {
+	const { id } = use(params);
+	const { data: proyecto, isLoading, error } = useGetProjectDetail(id);
 
 	// Estado badge color
 	const getEstadoBadgeVariant = (estado: string) => {
@@ -74,6 +79,51 @@ export default async function ProyectoDetailPage({ params }: PageProps) {
 			return dateString;
 		}
 	};
+
+	// Loading state
+	if (isLoading) {
+		return (
+			<div className="container mx-auto py-8 px-4 max-w-7xl">
+				<div className="space-y-6">
+					<Skeleton className="h-16 w-3/4" />
+					<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+						{Array.from({ length: 4 }).map((_, i) => (
+							<Skeleton key={i} className="h-24" />
+						))}
+					</div>
+					<Skeleton className="h-96" />
+				</div>
+			</div>
+		);
+	}
+
+	// Error state
+	if (error) {
+		return (
+			<div className="container mx-auto py-8 px-4 max-w-7xl">
+				<Alert variant="destructive">
+					<AlertCircle className="h-4 w-4" />
+					<AlertDescription>
+						Error al cargar el proyecto. Por favor, intenta nuevamente.
+					</AlertDescription>
+				</Alert>
+			</div>
+		);
+	}
+
+	// No data state
+	if (!proyecto) {
+		return (
+			<div className="container mx-auto py-8 px-4 max-w-7xl">
+				<Alert>
+					<AlertCircle className="h-4 w-4" />
+					<AlertDescription>
+						No se encontró el proyecto solicitado.
+					</AlertDescription>
+				</Alert>
+			</div>
+		);
+	}
 
 	return (
 		<div className="container mx-auto py-8 px-4 max-w-7xl">
@@ -145,7 +195,7 @@ export default async function ProyectoDetailPage({ params }: PageProps) {
 										Etapas
 									</p>
 									<p className="font-semibold">
-										{proyecto.etapas.length} etapas
+										{proyecto.etapas?.length || 0} etapas
 									</p>
 								</div>
 							</div>
@@ -260,7 +310,7 @@ export default async function ProyectoDetailPage({ params }: PageProps) {
 
 				{/* Etapas Tab */}
 				<TabsContent value="etapas" className="space-y-6">
-					{proyecto.etapas.length === 0 ? (
+					{!proyecto.etapas || proyecto.etapas.length === 0 ? (
 						<Card>
 							<CardContent className="py-12">
 								<div className="flex flex-col items-center justify-center text-center">
@@ -323,10 +373,10 @@ export default async function ProyectoDetailPage({ params }: PageProps) {
 									<CardContent className="pt-6">
 										<h4 className="font-semibold mb-4 flex items-center gap-2">
 											<Package className="h-4 w-4" />
-											Pedidos de Cobertura ({etapa.pedidos.length})
+											Pedidos de Cobertura ({etapa.pedidos?.length || 0})
 										</h4>
 
-										{etapa.pedidos.length === 0 ? (
+										{!etapa.pedidos || etapa.pedidos.length === 0 ? (
 											<div className="text-center py-8 text-muted-foreground">
 												<Package className="h-8 w-8 mx-auto mb-2 opacity-50" />
 												<p>No hay pedidos en esta etapa</p>

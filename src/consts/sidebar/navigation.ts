@@ -2,7 +2,6 @@ import {
 	Bell,
 	Calendar,
 	CheckCircle2,
-	Clock,
 	Clock3,
 	Eye,
 	FolderOpen,
@@ -17,6 +16,7 @@ import {
 	Shield,
 	Search,
 	Heart,
+	AlertTriangle,
 	type LucideIcon,
 } from "lucide-react";
 import type { Role } from "@/types/auth";
@@ -49,41 +49,29 @@ export const SIDEBAR_ITEMS = {
 			// Visible to all roles
 		},
 		{
-			title: "Proyectos",
+			title: "Mis Proyectos",
 			icon: FolderOpen,
 			roles: ["MEMBER"], // Only MEMBER can create/manage projects
 			items: [
 				{
-					title: "Todos los Proyectos",
+					title: "Ver Todos",
 					url: "/proyectos",
 					icon: FolderOpen,
+				},
+				{
+					title: "Crear Proyecto",
+					url: "/proyectos/nuevo",
+					icon: FolderPlus,
 				},
 				{
 					title: "Ofertas Recibidas",
 					url: "/proyectos/ofertas",
 					icon: HandHeart,
 				},
-				{
-					title: "Nuevo proyecto",
-					url: "/proyectos/nuevo",
-					icon: FolderPlus,
-				},
-				{
-					title: "En Planificacion",
-					url: "/proyectos/planificacion",
-					icon: Clock3,
-					badge: "12",
-				},
-				{
-					title: "En Ejecucion",
-					url: "/proyectos/ejecucion",
-					icon: Workflow,
-					badge: "8",
-				},
 			],
 		},
 		{
-			title: "Colaboraciones",
+			title: "Colaborar",
 			icon: HandHeart,
 			roles: ["MEMBER"], // Only MEMBER can collaborate
 			items: [
@@ -91,48 +79,28 @@ export const SIDEBAR_ITEMS = {
 					title: "Explorar Proyectos",
 					url: "/colaboraciones",
 					icon: Search,
-					// badge: "12", // Optional: count de proyectos disponibles
 				},
 				{
-					title: "Mis Compromisos",
+					title: "Mis Ofertas Enviadas",
 					url: "/colaboraciones/compromisos",
 					icon: Heart,
-					// badge: "3", // Optional: count de compromisos activos
-				},
-				{
-					title: "Pedidos Activos",
-					url: "/pedidos",
-					icon: Target,
-					badge: "5",
-				},
-				{
-					title: "Notificaciones",
-					url: "/notificaciones",
-					icon: Bell,
-					badge: "3",
 				},
 			],
 		},
 		{
 			title: "Seguimiento",
-			icon: Eye,
+			icon: TrendingUp,
 			roles: ["MEMBER"], // Only MEMBER tracks their projects
 			items: [
 				{
 					title: "Proyectos en Curso",
 					url: "/seguimiento/proyectos",
-					icon: TrendingUp,
+					icon: Eye,
 				},
 				{
 					title: "Control Quincenal",
 					url: "/seguimiento/control",
 					icon: Calendar,
-					badge: "2",
-				},
-				{
-					title: "Cronograma",
-					url: "/seguimiento/cronograma",
-					icon: Clock,
 				},
 			],
 		},
@@ -161,18 +129,12 @@ export const SIDEBAR_ITEMS = {
 		{
 			title: "Observaciones",
 			icon: FileText,
-			roles: ["COUNCIL"], // Only COUNCIL can make observations
+			roles: ["COUNCIL", "MEMBER"], // COUNCIL creates, MEMBER resolves
 			items: [
 				{
-					title: "Todas las Observaciones",
+					title: "Panel Principal",
 					url: "/observaciones",
 					icon: FileText,
-				},
-				{
-					title: "Pendientes de Revisión",
-					url: "/observaciones/pendientes",
-					icon: Clock,
-					badge: "7",
 				},
 			],
 		},

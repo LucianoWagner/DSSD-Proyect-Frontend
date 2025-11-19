@@ -57,9 +57,9 @@ export default function CompromisosPage() {
   return (
     <div className="container mx-auto p-6">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Mis Compromisos</h1>
+        <h1 className="text-3xl font-bold mb-2">Mis Ofertas Enviadas</h1>
         <p className="text-muted-foreground">
-          Gestiona las ofertas que has enviado a otros proyectos
+          Seguí el estado de tus ofertas de colaboración enviadas a otros proyectos
         </p>
       </div>
 

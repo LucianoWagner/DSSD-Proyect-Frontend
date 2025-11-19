@@ -7,7 +7,7 @@ import type { ProjectListFilters } from "@/types/colaboraciones";
 import { ProjectFilters } from "@/components/proyectos/project-filters";
 import { ProyectoCard } from "@/components/colaboraciones/proyecto-card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { AlertCircle, ChevronLeft, ChevronRight, Plus, FolderOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -54,18 +54,26 @@ export default function MisProyectosPage() {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Mis Proyectos</h1>
-          <p className="text-muted-foreground">
-            Administra tus proyectos y accede rápidamente a sus detalles
-          </p>
-        </div>
+      {/* Header con diferenciación visual */}
+      <div className="relative rounded-lg bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-6 border border-primary/20">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-start gap-3">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <FolderOpen className="h-6 w-6 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold">Mis Proyectos</h1>
+              <p className="text-muted-foreground mt-1">
+                Gestiona tus proyectos, edita etapas y controla el progreso de cada iniciativa
+              </p>
+            </div>
+          </div>
 
-        <Button onClick={() => router.push("/proyectos/nuevo")}>
-          <Plus className="mr-2 h-4 w-4" />
-          Nuevo Proyecto
-        </Button>
+          <Button onClick={() => router.push("/proyectos/nuevo")} className="shrink-0">
+            <Plus className="mr-2 h-4 w-4" />
+            Crear Proyecto
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -126,6 +134,7 @@ export default function MisProyectosPage() {
                   <ProyectoCard
                     key={proyecto.id}
                     proyecto={proyecto}
+                    variant="owner"
                     onVerDetalles={() => handleOpenProject(proyecto.id)}
                   />
                 ))}
