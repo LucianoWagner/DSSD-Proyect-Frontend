@@ -701,8 +701,8 @@ export default function ProyectoDetailPage({ params }: PageProps) {
 									completeEtapaMutation.variables?.etapaId === etapa.id;
 								const canStartEtapa =
 									projectIsRunning &&
-									(etapaEstado === "financiada" ||
-										etapaEstado === "esperando_ejecucion") &&
+									etapaEstado === "esperando_ejecucion" &&
+									etapaEstado === "esperando_ejecucion" &&
 									allPedidosCompleted;
 								const canCompleteEtapa =
 									projectIsRunning && etapaEstado === "en_ejecucion";

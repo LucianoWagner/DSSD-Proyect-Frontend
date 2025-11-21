@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, Clock, CheckCircle2, XCircle, AlertCircle, Edit, Trash2 } from "lucide-react";
+import { MapPin, Clock, CheckCircle2, XCircle, AlertCircle, Edit, Trash2, Building2, Layers } from "lucide-react";
 import type { CompromisoWithPedido } from "@/types/colaboraciones";
 import { formatRelativeTime } from "@/lib/utils";
 import { canConfirmRealizacion } from "@/hooks/colaboraciones/use-confirmar-realizacion";
@@ -77,53 +77,78 @@ export function CompromisoCard({
     <Card>
       <CardHeader>
         <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-2">
-            {getEstadoIcon()}
-            <CardTitle className="text-base">
-              {compromiso.pedido.etapa.nombre}
-            </CardTitle>
+          <div className="space-y-1 flex-1">
+            {/* Título del proyecto - Más prominente */}
+            <div className="flex items-center gap-2">
+              <Building2 className="h-5 w-5 text-primary" />
+              <CardTitle className="text-lg">
+                {compromiso.pedido.etapa.proyecto.titulo}
+              </CardTitle>
+            </div>
+            {/* Ubicación del proyecto */}
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4" />
+              <span>{compromiso.pedido.etapa.proyecto.ciudad}, {compromiso.pedido.etapa.proyecto.provincia}</span>
+            </div>
           </div>
           <Badge variant={getEstadoBadgeVariant()}>
             {getEstadoText()}
           </Badge>
         </div>
+
+        {/* Tipo de proyecto y estado */}
+        <div className="flex gap-2 mt-2">
+          <Badge variant="outline" className="text-xs">
+            {compromiso.pedido.etapa.proyecto.tipo}
+          </Badge>
+          <Badge variant="outline" className="text-xs">
+            Proyecto: {compromiso.pedido.etapa.proyecto.estado}
+          </Badge>
+        </div>
       </CardHeader>
 
       <CardContent className="space-y-3">
-        {/* Información del pedido */}
-        <div>
-          <p className="text-sm font-medium mb-1">Pedido:</p>
-          <p className="text-sm text-muted-foreground">
-            {compromiso.pedido.tipo} - {compromiso.pedido.descripcion}
-          </p>
-          <div className="mt-1">
-            <Badge variant="outline" className="text-xs">
-              Estado del pedido: {compromiso.pedido.estado}
-            </Badge>
+        {/* Información de la etapa */}
+        <div className="border-l-2 border-primary/20 pl-3">
+          <div className="flex items-center gap-2 mb-1">
+            <Layers className="h-4 w-4 text-primary" />
+            <p className="text-sm font-medium">Etapa: {compromiso.pedido.etapa.nombre}</p>
           </div>
+          <Badge variant="secondary" className="text-xs">
+            Estado: {compromiso.pedido.etapa.estado}
+          </Badge>
         </div>
 
-        {/* Estado de la etapa */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <MapPin className="h-4 w-4" />
-          <span>Estado de etapa: {compromiso.pedido.etapa.estado}</span>
+        {/* Información del pedido */}
+        <div className="border-l-2 border-muted pl-3">
+          <p className="text-sm font-medium mb-1">Pedido solicitado:</p>
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium capitalize">{compromiso.pedido.tipo}</span> - {compromiso.pedido.descripcion}
+          </p>
+          <Badge variant="outline" className="text-xs mt-1">
+            Estado: {compromiso.pedido.estado}
+          </Badge>
         </div>
 
         {/* Tu oferta */}
-        <div>
-          <p className="text-sm font-medium mb-1">Tu oferta:</p>
+        <div className="bg-muted/50 p-3 rounded-lg">
+          <p className="text-sm font-medium mb-1 flex items-center gap-2">
+            {getEstadoIcon()}
+            Tu oferta:
+          </p>
           <p className="text-sm text-muted-foreground">
             {compromiso.descripcion}
           </p>
           {compromiso.monto_ofrecido && (
-            <p className="text-sm font-medium text-green-600 mt-1">
+            <p className="text-sm font-medium text-green-600 mt-2">
               ARS {compromiso.monto_ofrecido.toLocaleString("es-AR")}
             </p>
           )}
         </div>
 
         {/* Fecha */}
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground flex items-center gap-1">
+          <Clock className="h-3 w-3" />
           Enviada {formatRelativeTime(compromiso.created_at)}
         </p>
       </CardContent>

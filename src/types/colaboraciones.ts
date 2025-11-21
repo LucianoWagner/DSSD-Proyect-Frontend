@@ -99,6 +99,18 @@ export interface ProyectoDetalle extends ProyectoBasic {
 }
 
 /**
+ * Información del proyecto asociado a una oferta
+ */
+export interface ProyectoInfo {
+  id: string;
+  titulo: string;
+  tipo: string;
+  ciudad: string;
+  provincia: string;
+  estado: string;
+}
+
+/**
  * Compromiso (oferta con datos del pedido asociado)
  * Usado en página "Mis Compromisos"
  */
@@ -116,6 +128,7 @@ export interface CompromisoWithPedido extends Oferta {
       id: string;
       nombre: string;
       estado: string;
+      proyecto: ProyectoInfo;
     };
   };
 }

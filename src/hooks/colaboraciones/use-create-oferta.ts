@@ -97,9 +97,81 @@ export function useGetPedidoOfertas(pedidoId: string | null) {
 }
 
 /**
+ * Hook para evaluar una oferta (aceptar o rechazar) usando Bonita BPM
+ * POST /api/v1/ofertas/{oferta_id}/evaluate
+ * Solo el dueño del proyecto puede evaluar
+ *
+ * Nuevo flujo con Bonita:
+ * Frontend → Proxy API → Bonita BPM → Cloud API accept/reject → Frontend
+ */
+export function useEvaluateOferta() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      ofertaId,
+      decision
+    }: {
+      ofertaId: string;
+      decision: "accept" | "reject"
+    }) => {
+      const { data, error, response } = await apiClient.POST(
+        "/api/v1/ofertas/{oferta_id}/evaluate",
+        {
+          params: {
+            path: {
+              oferta_id: ofertaId,
+            },
+          },
+          body: {
+            decision,
+          },
+        }
+      );
+
+      if (error) {
+        throw createApiError(error, response.status ?? 500, response);
+      }
+
+      return data;
+    },
+    onSuccess: (_, variables) => {
+      // Invalidate all related queries
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["pedidos"] });
+      queryClient.invalidateQueries({ queryKey: ["ofertas"] });
+
+      const actionText = variables.decision === "accept" ? "aceptada" : "rechazada";
+      toast.success(`Oferta ${actionText}`, {
+        description: `La oferta ha sido ${actionText} exitosamente`,
+      });
+    },
+    onError: (error) => {
+      const message = getErrorMessage(error);
+
+      // Manejo de errores específicos de Bonita
+      let errorDescription = message;
+      if (message.includes("not associated with a Bonita process")) {
+        errorDescription = "Este proyecto no está asociado a un proceso Bonita";
+      } else if (message.includes("Only the project owner")) {
+        errorDescription = "Solo el dueño del proyecto puede evaluar ofertas";
+      } else if (message.includes("No pending")) {
+        errorDescription = "No hay una tarea pendiente de evaluación en Bonita para este proyecto";
+      }
+
+      toast.error("Error al evaluar oferta", {
+        description: errorDescription,
+      });
+    },
+  });
+}
+
+/**
  * Hook para aceptar una oferta
  * POST /api/v1/ofertas/{oferta_id}/accept
  * Solo el dueño del proyecto puede aceptar
+ *
+ * @deprecated Use useEvaluateOferta instead. This endpoint bypasses Bonita workflow.
  */
 export function useAcceptOferta() {
   const queryClient = useQueryClient();
@@ -146,6 +218,8 @@ export function useAcceptOferta() {
  * Hook para rechazar una oferta
  * POST /api/v1/ofertas/{oferta_id}/reject
  * Solo el dueño del proyecto puede rechazar
+ *
+ * @deprecated Use useEvaluateOferta instead. This endpoint bypasses Bonita workflow.
  */
 export function useRejectOferta() {
   const queryClient = useQueryClient();

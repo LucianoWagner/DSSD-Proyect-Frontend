@@ -5,9 +5,8 @@ import { useListProjects } from "@/hooks/colaboraciones/use-list-projects";
 import type { ProjectListFilters, OfertaWithUser } from "@/types/colaboraciones";
 import { useListProjectPedidos } from "@/hooks/use-list-project-pedidos";
 import {
-  useAcceptOferta,
+  useEvaluateOferta,
   useGetPedidoOfertas,
-  useRejectOferta,
 } from "@/hooks/colaboraciones/use-create-oferta";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -70,28 +69,22 @@ export default function OfertasRecibidasPage() {
     refetch: refetchOfertas,
   } = useGetPedidoOfertas(selectedPedidoId);
 
-  const acceptOferta = useAcceptOferta();
-  const rejectOferta = useRejectOferta();
+  const evaluateOferta = useEvaluateOferta();
 
   const selectedPedido = useMemo(
     () => pedidos?.find((pedido) => pedido.id === selectedPedidoId),
     [pedidos, selectedPedidoId]
   );
 
-  const handleAccept = (ofertaId: string) => {
-    acceptOferta.mutate(ofertaId, {
-      onSuccess: () => {
-        refetchOfertas();
-      },
-    });
-  };
-
-  const handleReject = (ofertaId: string) => {
-    rejectOferta.mutate(ofertaId, {
-      onSuccess: () => {
-        refetchOfertas();
-      },
-    });
+  const handleEvaluate = (ofertaId: string, decision: "accept" | "reject") => {
+    evaluateOferta.mutate(
+      { ofertaId, decision },
+      {
+        onSuccess: () => {
+          refetchOfertas();
+        },
+      }
+    );
   };
 
   const renderOfferActions = (oferta: OfertaWithUser) => {
@@ -103,10 +96,10 @@ export default function OfertasRecibidasPage() {
       <div className="flex gap-2">
         <Button
           size="sm"
-          onClick={() => handleAccept(oferta.id)}
-          disabled={acceptOferta.isPending}
+          onClick={() => handleEvaluate(oferta.id, "accept")}
+          disabled={evaluateOferta.isPending}
         >
-          {acceptOferta.isPending ? (
+          {evaluateOferta.isPending ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <CheckCircle2 className="mr-2 h-4 w-4" />
@@ -116,10 +109,10 @@ export default function OfertasRecibidasPage() {
         <Button
           size="sm"
           variant="outline"
-          onClick={() => handleReject(oferta.id)}
-          disabled={rejectOferta.isPending}
+          onClick={() => handleEvaluate(oferta.id, "reject")}
+          disabled={evaluateOferta.isPending}
         >
-          {rejectOferta.isPending ? (
+          {evaluateOferta.isPending ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <XCircle className="mr-2 h-4 w-4" />

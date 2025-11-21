@@ -1,11 +1,11 @@
 import createClient from "openapi-fetch";
-import type { paths } from "@/types/openapi";
+import type { AppPaths } from "@/types/api-schema";
 
 /**
  * Server-side API client
  * Used in Server Components and Server Actions
  */
-export const apiServer = createClient<paths>({
+export const apiServer = createClient<AppPaths>({
 	baseUrl: process.env.API_BASE_URL,
 });
 
@@ -14,7 +14,7 @@ export const apiServer = createClient<paths>({
  * Used in Client Components
  * Automatically injects Authorization header from localStorage
  */
-export const apiClient = createClient<paths>({
+export const apiClient = createClient<AppPaths>({
 	baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
 });
 
