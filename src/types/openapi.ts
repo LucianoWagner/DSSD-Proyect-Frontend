@@ -132,6 +132,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/users/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Authenticated Profile */
+        get: operations["get_authenticated_profile_api_v1_users_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/etapas/{etapa_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Etapa */
+        get: operations["get_etapa_api_v1_etapas__etapa_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/projects/{project_id}/etapas/{etapa_id}/pedidos": {
         parameters: {
             query?: never;
@@ -173,14 +207,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Get Pedido */
+        get: operations["get_pedido_api_v1_pedidos__pedido_id__get"];
         put?: never;
         post?: never;
         /** Delete Pedido */
         delete: operations["delete_pedido_api_v1_pedidos__pedido_id__delete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Update Pedido */
+        patch: operations["update_pedido_api_v1_pedidos__pedido_id__patch"];
         trace?: never;
     };
     "/api/v1/pedidos/{pedido_id}/ofertas": {
@@ -195,57 +231,6 @@ export interface paths {
         put?: never;
         /** Create Oferta For Pedido */
         post: operations["create_oferta_for_pedido_api_v1_pedidos__pedido_id__ofertas_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/ofertas/{oferta_id}/accept": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Accept Oferta */
-        post: operations["accept_oferta_api_v1_ofertas__oferta_id__accept_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/ofertas/{oferta_id}/reject": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Reject Oferta */
-        post: operations["reject_oferta_api_v1_ofertas__oferta_id__reject_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/ofertas/{oferta_id}/confirmar-realizacion": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Confirm Oferta Realizacion */
-        post: operations["confirm_oferta_realizacion_api_v1_ofertas__oferta_id__confirmar_realizacion_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -288,15 +273,63 @@ export interface paths {
         patch: operations["update_oferta_api_v1_ofertas__oferta_id__patch"];
         trace?: never;
     };
-    "/api/v1/users/me": {
+    "/api/v1/ofertas/{oferta_id}/evaluate": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get Current User */
-        get: operations["get_current_user_api_v1_users_me_get"];
+        get?: never;
+        put?: never;
+        /**
+         * Evaluate Oferta
+         * @description Evaluate an oferta by executing Bonita user task.
+         *
+         *     Flow:
+         *     1. Get oferta details from Cloud API (includes nested pedido and proyecto info)
+         *     2. Extract bonita_case_id from the proyecto
+         *     3. Find pending "Evaluate Offer" task in Bonita for that case
+         *     4. Execute task with decision (accept/reject)
+         *     5. Bonita process advances and calls Cloud API accept/reject via connectors
+         *     6. Return updated oferta
+         */
+        post: operations["evaluate_oferta_api_v1_ofertas__oferta_id__evaluate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/ofertas/{oferta_id}/confirmar-realizacion": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Confirm Oferta Realizacion */
+        post: operations["confirm_oferta_realizacion_api_v1_ofertas__oferta_id__confirmar_realizacion_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/observaciones": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Observaciones
+         * @description Proxy the global observaciones listing endpoint with filters and pagination.
+         */
+        get: operations["list_observaciones_api_v1_observaciones_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -319,6 +352,26 @@ export interface paths {
         get: operations["list_project_observaciones_api_v1_projects__project_id__observaciones_get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/observaciones/{observacion_id}/resolve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Resolve Observacion
+         * @description Resolve an observacion through the Cloud API proxy.
+         */
+        post: operations["resolve_observacion_api_v1_observaciones__observacion_id__resolve_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -404,6 +457,29 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/projects/{project_id}/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Start Project
+         * @description Start a project (transition from pendiente to en_ejecucion).
+         *
+         *     Called by Bonita when all etapas are fully funded (all pedidos are COMPROMETIDO or COMPLETADO).
+         *     Cloud API validates that all pedidos are indeed funded before allowing the transition.
+         */
+        post: operations["start_project_api_v1_projects__project_id__start_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/": {
         parameters: {
             query?: never;
@@ -449,6 +525,19 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         /**
+         * EtapaBasicInfo
+         * @description Minimal etapa information for nested pedido data.
+         */
+        EtapaBasicInfo: {
+            /** Id */
+            id?: string | null;
+            /** Nombre */
+            nombre?: string | null;
+            /** Estado */
+            estado?: string | null;
+            proyecto?: components["schemas"]["ProyectoBasicInfo"] | null;
+        };
+        /**
          * EtapaCreate
          * @description Schema for creating an etapa (project stage).
          */
@@ -478,6 +567,42 @@ export interface components {
              * @description List of coverage requests
              */
             pedidos: components["schemas"]["PedidoCreate"][];
+        };
+        /**
+         * EtapaDetailResponse
+         * @description Single etapa details with pedido counters.
+         */
+        EtapaDetailResponse: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Proyecto Id
+             * Format: uuid
+             */
+            proyecto_id: string;
+            /** Nombre */
+            nombre: string;
+            /** Descripcion */
+            descripcion: string;
+            /**
+             * Fecha Inicio
+             * Format: date
+             */
+            fecha_inicio: string;
+            /**
+             * Fecha Fin
+             * Format: date
+             */
+            fecha_fin: string;
+            /** Estado */
+            estado: string;
+            /** Pendientes Count */
+            pendientes_count: number;
+            /** Total Pedidos */
+            total_pedidos: number;
         };
         /**
          * EtapaListItem
@@ -557,6 +682,16 @@ export interface components {
              * Format: uuid
              */
             proyecto_id: string;
+            /**
+             * Estado
+             * @description Current state of the etapa
+             */
+            estado?: string;
+            /**
+             * Fecha Completitud
+             * Format: date
+             */
+            fecha_completitud?: string | null;
             /**
              * Pedidos
              * @default []
@@ -710,6 +845,85 @@ export interface components {
             puede_iniciar: boolean;
         };
         /**
+         * ObservacionListItem
+         * @description Extended observacion entry returned on the global listing.
+         */
+        ObservacionListItem: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Proyecto Id
+             * Format: uuid
+             */
+            proyecto_id: string;
+            /**
+             * Council User Id
+             * Format: uuid
+             */
+            council_user_id: string;
+            /** Descripcion */
+            descripcion: string;
+            /** Estado */
+            estado: string;
+            /**
+             * Fecha Limite
+             * Format: date
+             */
+            fecha_limite: string;
+            /** Respuesta */
+            respuesta?: string | null;
+            /** Fecha Resolucion */
+            fecha_resolucion?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            /** Council User Email */
+            council_user_email?: string | null;
+            /** Council User Ong */
+            council_user_ong?: string | null;
+            /** Council User Nombre */
+            council_user_nombre?: string | null;
+            proyecto?: components["schemas"]["ObservacionProjectInfo"] | null;
+            council_user?: components["schemas"]["ObservacionUserInfo"] | null;
+            executor_user?: components["schemas"]["ObservacionUserInfo"] | null;
+        };
+        /**
+         * ObservacionProjectInfo
+         * @description Project metadata included in paginated observacion listings.
+         */
+        ObservacionProjectInfo: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Titulo */
+            titulo: string;
+            /** Estado */
+            estado: string;
+        };
+        /**
+         * ObservacionResolveRequest
+         * @description Payload used when resolving an observacion.
+         */
+        ObservacionResolveRequest: {
+            /**
+             * Respuesta
+             * @description Respuesta del ejecutor (mínimo 10 caracteres)
+             */
+            respuesta: string;
+        };
+        /**
          * ObservacionResponse
          * @description Represents a council observation entry from the Cloud API.
          */
@@ -760,85 +974,41 @@ export interface components {
             council_user_nombre?: string | null;
         };
         /**
-         * EtapaBasicInfo
-         * @description Basic etapa information for nested responses.
+         * ObservacionUserInfo
+         * @description Minimal representation of a council/executor user.
          */
-        EtapaBasicInfo: {
+        ObservacionUserInfo: {
             /**
              * Id
              * Format: uuid
              */
             id: string;
+            /** Email */
+            email: string;
+            /** Ong */
+            ong: string;
             /** Nombre */
             nombre: string;
-            /** Estado */
-            estado: string;
+            /** Apellido */
+            apellido?: string | null;
         };
         /**
-         * PedidoDetailedInfo
-         * @description Detailed pedido information with nested etapa.
+         * ObservacionesPaginatedResponse
+         * @description Paginated response for the GET /observaciones endpoint.
          */
-        PedidoDetailedInfo: {
-            /**
-             * Id
-             * Format: uuid
-             */
-            id: string;
-            /** Tipo */
-            tipo: string;
-            /** Descripcion */
-            descripcion: string;
-            /** Estado */
-            estado: string;
-            /** Monto */
-            monto?: number | null;
-            /** Moneda */
-            moneda?: string | null;
-            /** Cantidad */
-            cantidad?: number | null;
-            /** Unidad */
-            unidad?: string | null;
-            /** Etapa */
-            etapa: components["schemas"]["EtapaBasicInfo"];
-        };
-        /**
-         * OfertaCompromisoResponse
-         * @description Oferta with detailed nested pedido and etapa information.
-         */
-        OfertaCompromisoResponse: {
-            /**
-             * Id
-             * Format: uuid
-             */
-            id: string;
-            /**
-             * Pedido Id
-             * Format: uuid
-             */
-            pedido_id: string;
-            /**
-             * User Id
-             * Format: uuid
-             */
-            user_id: string;
-            /** Descripcion */
-            descripcion: string;
-            /** Monto Ofrecido */
-            monto_ofrecido?: number | null;
-            /** Estado */
-            estado: string;
-            /**
-             * Created At
-             * Format: date-time
-             */
-            created_at: string;
-            /**
-             * Updated At
-             * Format: date-time
-             */
-            updated_at: string;
-            /** Pedido */
-            pedido: components["schemas"]["PedidoDetailedInfo"];
+        ObservacionesPaginatedResponse: {
+            /** Items */
+            items: components["schemas"]["ObservacionListItem"][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Page Size */
+            page_size: number;
+            /** Pages */
+            pages: number;
+            /** Total Pages */
+            total_pages: number;
         };
         /**
          * OfertaConfirmationResponse
@@ -882,6 +1052,56 @@ export interface components {
             monto_ofrecido?: number | null;
         };
         /**
+         * OfertaDetailedResponse
+         * @description Oferta enriched with nested pedido (and etapa) details.
+         */
+        OfertaDetailedResponse: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Pedido Id
+             * Format: uuid
+             */
+            pedido_id: string;
+            /**
+             * User Id
+             * Format: uuid
+             */
+            user_id: string;
+            /** Descripcion */
+            descripcion: string;
+            /** Monto Ofrecido */
+            monto_ofrecido?: number | null;
+            /** Estado */
+            estado: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            user?: components["schemas"]["OfertaUserSummary"] | null;
+            pedido?: components["schemas"]["PedidoDetailedInfo"] | null;
+        };
+        /**
+         * OfertaEvaluationRequest
+         * @description Payload for evaluating an oferta (accept/reject) via Bonita.
+         */
+        OfertaEvaluationRequest: {
+            /**
+             * Decision
+             * @description Decision: accept or reject
+             */
+            decision: string;
+        };
+        /**
          * OfertaResponse
          * @description Oferta returned by the Cloud API.
          */
@@ -918,6 +1138,16 @@ export interface components {
              */
             updated_at: string;
             user?: components["schemas"]["OfertaUserSummary"] | null;
+        };
+        /**
+         * OfertaUpdate
+         * @description Payload for updating an oferta.
+         */
+        OfertaUpdate: {
+            /** Descripcion */
+            descripcion?: string | null;
+            /** Monto Ofrecido */
+            monto_ofrecido?: number | null;
         };
         /**
          * OfertaUserSummary
@@ -991,6 +1221,30 @@ export interface components {
             unidad?: string | null;
         };
         /**
+         * PedidoDetailedInfo
+         * @description Pedido with nested etapa info for richer oferta responses.
+         */
+        PedidoDetailedInfo: {
+            /** Id */
+            id?: string | null;
+            /** Tipo */
+            tipo?: string | null;
+            /** Descripcion */
+            descripcion?: string | null;
+            /** Estado */
+            estado?: string | null;
+            /** Monto */
+            monto?: number | null;
+            /** Moneda */
+            moneda?: string | null;
+            /** Cantidad */
+            cantidad?: number | null;
+            /** Unidad */
+            unidad?: string | null;
+            etapa?: components["schemas"]["EtapaBasicInfo"] | null;
+            proyecto?: components["schemas"]["ProyectoBasicInfo"] | null;
+        };
+        /**
          * PedidoResponse
          * @description Schema for pedido response (from Cloud API).
          */
@@ -1025,6 +1279,63 @@ export interface components {
             created_at?: string | null;
             /** Updated At */
             updated_at?: string | null;
+        };
+        /**
+         * PedidoUpdate
+         * @description Schema for updating a pedido.
+         */
+        PedidoUpdate: {
+            /**
+             * Tipo
+             * @description economico|materiales|mano_obra|transporte|equipamiento
+             */
+            tipo?: string | null;
+            /**
+             * Descripcion
+             * @description Description of the request
+             */
+            descripcion?: string | null;
+            /**
+             * Monto
+             * @description Amount (for economico)
+             */
+            monto?: number | null;
+            /**
+             * Moneda
+             * @description Currency code (for economico)
+             */
+            moneda?: string | null;
+            /**
+             * Cantidad
+             * @description Quantity (for materiales/mano_obra)
+             */
+            cantidad?: number | null;
+            /**
+             * Unidad
+             * @description Unit (for materiales/mano_obra)
+             */
+            unidad?: string | null;
+        };
+        /**
+         * ProyectoBasicInfo
+         * @description Minimal project information to support future nested responses.
+         */
+        ProyectoBasicInfo: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Titulo */
+            titulo: string;
+            /** Tipo */
+            tipo?: string | null;
+            /** Ciudad */
+            ciudad?: string | null;
+            /** Provincia */
+            provincia?: string | null;
+            /** Estado */
+            estado?: string | null;
         };
         /**
          * ProyectoCreate
@@ -1476,6 +1787,57 @@ export interface operations {
             };
         };
     };
+    get_authenticated_profile_api_v1_users_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserResponse"];
+                };
+            };
+        };
+    };
+    get_etapa_api_v1_etapas__etapa_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                etapa_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EtapaDetailResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     create_pedido_for_etapa_api_v1_projects__project_id__etapas__etapa_id__pedidos_post: {
         parameters: {
             query?: never;
@@ -1546,6 +1908,37 @@ export interface operations {
             };
         };
     };
+    get_pedido_api_v1_pedidos__pedido_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                pedido_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PedidoResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     delete_pedido_api_v1_pedidos__pedido_id__delete: {
         parameters: {
             query?: never;
@@ -1563,6 +1956,41 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_pedido_api_v1_pedidos__pedido_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                pedido_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PedidoUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PedidoResponse"];
+                };
             };
             /** @description Validation Error */
             422: {
@@ -1641,7 +2069,39 @@ export interface operations {
             };
         };
     };
-    accept_oferta_api_v1_ofertas__oferta_id__accept_post: {
+    list_my_ofertas_api_v1_ofertas_mis_ofertas_get: {
+        parameters: {
+            query?: {
+                /** @description Filter by oferta state (pendiente, aceptada, rechazada). */
+                estado_oferta?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfertaDetailedResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_oferta_api_v1_ofertas__oferta_id__get: {
         parameters: {
             query?: never;
             header?: never;
@@ -1672,7 +2132,7 @@ export interface operations {
             };
         };
     };
-    reject_oferta_api_v1_ofertas__oferta_id__reject_post: {
+    delete_oferta_api_v1_ofertas__oferta_id__delete: {
         parameters: {
             query?: never;
             header?: never;
@@ -1682,6 +2142,74 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_oferta_api_v1_ofertas__oferta_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oferta_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OfertaUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfertaResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    evaluate_oferta_api_v1_ofertas__oferta_id__evaluate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oferta_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OfertaEvaluationRequest"];
+            };
+        };
         responses: {
             /** @description Successful Response */
             200: {
@@ -1734,11 +2262,29 @@ export interface operations {
             };
         };
     };
-    list_my_ofertas_api_v1_ofertas_mis_ofertas_get: {
+    list_observaciones_api_v1_observaciones_get: {
         parameters: {
             query?: {
-                /** @description Filter offers by offer state (pendiente, aceptada, rechazada) */
-                estado_oferta?: "pendiente" | "aceptada" | "rechazada" | null;
+                /** @description Page number (starts at 1) */
+                page?: number;
+                /** @description Items per page */
+                page_size?: number;
+                /** @description Filter by estado */
+                estado?: string | null;
+                /** @description Filter by associated project ID */
+                proyecto_id?: string | null;
+                /** @description Filter by council member creator */
+                council_user_id?: string | null;
+                /** @description Search in descripcion/respuesta (min 3 chars) */
+                search?: string | null;
+                /** @description Only include observaciones created after this date */
+                fecha_desde?: string | null;
+                /** @description Only include observaciones created before this date */
+                fecha_hasta?: string | null;
+                /** @description Field used for sorting */
+                sort_by?: "created_at" | "fecha_limite" | "fecha_resolucion" | "updated_at";
+                /** @description Sort direction (asc or desc) */
+                sort_order?: "asc" | "desc";
             };
             header?: never;
             path?: never;
@@ -1752,7 +2298,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["OfertaCompromisoResponse"][];
+                    "application/json": components["schemas"]["ObservacionesPaginatedResponse"];
                 };
             };
             /** @description Validation Error */
@@ -1762,151 +2308,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    get_oferta_api_v1_ofertas__oferta_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                oferta_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["OfertaResponse"];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    update_oferta_api_v1_ofertas__oferta_id__patch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                oferta_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    descripcion?: string;
-                    monto_ofrecido?: number;
-                };
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["OfertaResponse"];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    delete_oferta_api_v1_ofertas__oferta_id__delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                oferta_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    get_current_user_api_v1_users_me_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        id: string;
-                        email: string;
-                        nombre: string;
-                        apellido: string;
-                        ong: string;
-                        role: "ADMIN" | "MEMBER" | "REVIEWER";
-                        created_at: string;
-                        updated_at: string;
-                    };
                 };
             };
         };
@@ -1932,6 +2333,41 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ObservacionResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    resolve_observacion_api_v1_observaciones__observacion_id__resolve_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                observacion_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ObservacionResolveRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservacionResponse"];
                 };
             };
             /** @description Validation Error */
@@ -2084,6 +2520,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["EtapasListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    start_project_api_v1_projects__project_id__start_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                project_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProyectoResponse"];
                 };
             };
             /** @description Validation Error */
