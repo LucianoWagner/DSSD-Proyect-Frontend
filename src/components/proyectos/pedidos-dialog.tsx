@@ -26,7 +26,6 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { TIPOS_PEDIDO } from "@/consts/proyectos/form-options";
 import type { PedidoCobertura, TipoPedidoCobertura } from "@/types/proyecto";
-import type { PedidoFormValues } from "@/schemas/proyecto";
 
 interface PedidoDialogProps {
 	open: boolean;
@@ -68,7 +67,7 @@ export function PedidoDialog({
 		onOpenChange(false);
 	};
 
-	const updatePedidoField = (field: keyof PedidoCobertura, value: any) => {
+	const updatePedidoField = (field: keyof PedidoCobertura, value: string | number | undefined) => {
 		setCurrentPedido(prev => ({ ...prev, [field]: value }));
 	};
 

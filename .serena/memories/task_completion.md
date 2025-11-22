@@ -1,0 +1,1 @@
+Before handing off changes, run `pnpm lint` and `pnpm typecheck` (and `pnpm build` if touching build-critical code). Ensure components remain server-first when possible, forms use react-hook-form + Zod, and any new env vars go through `lib/env.ts`. Double-check accessibility (ARIA, keyboard, contrast) and keep API calls routed through the shared fetcher.

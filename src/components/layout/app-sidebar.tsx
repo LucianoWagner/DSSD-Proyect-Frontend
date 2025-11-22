@@ -12,17 +12,40 @@ import {
 import { IconInnerShadowTop } from "@tabler/icons-react";
 import { NavMain } from "./sidebar-nav-main";
 import { NavUser } from "./sidebar-nav-user";
-import { SIDEBAR_ITEMS } from "@/consts/sidebar/navigation";
-
-const data = {
-	user: {
-		name: "shadcn",
-		email: "m@example.com",
-		avatar: "/avatars/shadcn.jpg",
-	},
-};
+import { SIDEBAR_ITEMS, type NavItem } from "@/consts/sidebar/navigation";
+import { useAuth } from "@/hooks/use-auth";
+import type { Role } from "@/types/auth";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+	const { user } = useAuth();
+
+	// Filter navigation items based on user role
+	const filterNavItemsByRole = (items: NavItem[], userRole?: Role): NavItem[] => {
+		if (!userRole) return [];
+
+		return items.filter((item) => {
+			// If no roles specified, item is visible to all
+			if (!item.roles || item.roles.length === 0) return true;
+
+			// Check if user's role is in the allowed roles
+			return item.roles.includes(userRole);
+		});
+	};
+
+	const filteredNavItems = filterNavItemsByRole(SIDEBAR_ITEMS.navMain, user?.role);
+
+	const userData = user
+		? {
+				name: `${user.nombre} ${user.apellido}`,
+				email: user.email,
+				avatar: "/avatars/default.jpg",
+		  }
+		: {
+				name: "Usuario",
+				email: "usuario@example.com",
+				avatar: "/avatars/default.jpg",
+		  };
+
 	return (
 		<Sidebar collapsible="offcanvas" {...props}>
 			<SidebarHeader>
@@ -43,11 +66,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				</SidebarMenu>
 			</SidebarHeader>
 			<SidebarContent>
-				<NavMain items={SIDEBAR_ITEMS.navMain} />
+				<NavMain items={filteredNavItems} />
 			</SidebarContent>
 
 			<SidebarFooter>
-				<NavUser user={data.user} />
+				<NavUser user={userData} />
 			</SidebarFooter>
 		</Sidebar>
 	);

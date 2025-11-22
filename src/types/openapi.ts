@@ -4,7 +4,321 @@
  */
 
 export interface paths {
-    "/api/v1/projects/{project_id}": {
+    "/api/v1/auth/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Register User
+         * @description Register a new user through the Cloud API.
+         */
+        post: operations["register_user_api_v1_auth_register_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Login User
+         * @description Perform login against the Cloud API and return the token pair.
+         */
+        post: operations["login_user_api_v1_auth_login_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Refresh Token
+         * @description Exchange a refresh token for a new access token via the Cloud API.
+         */
+        post: operations["refresh_token_api_v1_auth_refresh_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/metrics/dashboard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Metrics Dashboard */
+        get: operations["get_metrics_dashboard_api_v1_metrics_dashboard_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/metrics/projects/{project_id}/tracking": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Project Tracking Metrics */
+        get: operations["get_project_tracking_metrics_api_v1_metrics_projects__project_id__tracking_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/metrics/commitments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Commitments Metrics */
+        get: operations["get_commitments_metrics_api_v1_metrics_commitments_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/metrics/performance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get System Performance Metrics */
+        get: operations["get_system_performance_metrics_api_v1_metrics_performance_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Authenticated Profile */
+        get: operations["get_authenticated_profile_api_v1_users_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/etapas/{etapa_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Etapa */
+        get: operations["get_etapa_api_v1_etapas__etapa_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/projects/{project_id}/etapas/{etapa_id}/pedidos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create Pedido For Etapa */
+        post: operations["create_pedido_for_etapa_api_v1_projects__project_id__etapas__etapa_id__pedidos_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/projects/{project_id}/pedidos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Project Pedidos */
+        get: operations["list_project_pedidos_api_v1_projects__project_id__pedidos_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/pedidos/{pedido_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Pedido */
+        get: operations["get_pedido_api_v1_pedidos__pedido_id__get"];
+        put?: never;
+        post?: never;
+        /** Delete Pedido */
+        delete: operations["delete_pedido_api_v1_pedidos__pedido_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Pedido */
+        patch: operations["update_pedido_api_v1_pedidos__pedido_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/pedidos/{pedido_id}/ofertas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Ofertas For Pedido */
+        get: operations["list_ofertas_for_pedido_api_v1_pedidos__pedido_id__ofertas_get"];
+        put?: never;
+        /** Create Oferta For Pedido */
+        post: operations["create_oferta_for_pedido_api_v1_pedidos__pedido_id__ofertas_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/ofertas/mis-ofertas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List My Ofertas */
+        get: operations["list_my_ofertas_api_v1_ofertas_mis_ofertas_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/ofertas/{oferta_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Oferta */
+        get: operations["get_oferta_api_v1_ofertas__oferta_id__get"];
+        put?: never;
+        post?: never;
+        /** Delete Oferta */
+        delete: operations["delete_oferta_api_v1_ofertas__oferta_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Oferta */
+        patch: operations["update_oferta_api_v1_ofertas__oferta_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/ofertas/{oferta_id}/evaluate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Evaluate Oferta
+         * @description Evaluate an oferta by executing Bonita user task.
+         *
+         *     Flow:
+         *     1. Get oferta details from Cloud API (includes nested pedido and proyecto info)
+         *     2. Extract bonita_case_id from the proyecto
+         *     3. Find pending "Evaluate Offer" task in Bonita for that case
+         *     4. Execute task with decision (accept/reject)
+         *     5. Bonita process advances and calls Cloud API accept/reject via connectors
+         *     6. Return updated oferta
+         */
+        post: operations["evaluate_oferta_api_v1_ofertas__oferta_id__evaluate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/ofertas/{oferta_id}/confirmar-realizacion": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Confirm Oferta Realizacion */
+        post: operations["confirm_oferta_realizacion_api_v1_ofertas__oferta_id__confirmar_realizacion_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/observaciones": {
         parameters: {
             query?: never;
             header?: never;
@@ -12,15 +326,52 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get Project
-         * @description Get full project details by ID.
-         *
-         *     Used by Bonita process to fetch project information when needed.
-         *     Returns proyecto with all nested etapas and pedidos.
+         * List Observaciones
+         * @description Proxy the global observaciones listing endpoint with filters and pagination.
          */
-        get: operations["get_project_api_v1_projects__project_id__get"];
+        get: operations["list_observaciones_api_v1_observaciones_get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/projects/{project_id}/observaciones": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Project Observaciones
+         * @description Proxy to list project observations with optional estado filter.
+         */
+        get: operations["list_project_observaciones_api_v1_projects__project_id__observaciones_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/observaciones/{observacion_id}/resolve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Resolve Observacion
+         * @description Resolve an observacion through the Cloud API proxy.
+         */
+        post: operations["resolve_observacion_api_v1_observaciones__observacion_id__resolve_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -34,21 +385,95 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /**
+         * List Projects
+         * @description Proxy list of projects with pagination, filters, and sorting.
+         */
+        get: operations["list_projects_api_v1_projects_get"];
         put?: never;
         /**
          * Create Project
-         * @description Create a new proyecto with nested etapas and pedidos.
-         *     Also starts a Bonita BPM process instance.
+         * @description Create a new proyecto - acts as proxy between frontend and external services.
          *
-         *     Request Flow:
+         *     Request Flow (Cloud API First, Then Bonita):
          *     1. Validate incoming data with Pydantic
-         *     2. Create proyecto, etapas, and pedidos in database
-         *     3. Start Bonita process instance
-         *     4. Update proyecto with Bonita information
-         *     5. Return complete proyecto with Bonita info
+         *     2. Persist proyecto in Cloud API (get real UUID)
+         *     3. Start Bonita BPM process with real project UUID
+         *     4. If Bonita fails: rollback (delete project from Cloud API)
+         *     5. If both succeed: return combined response
+         *
+         *     This API acts as an orchestration layer, coordinating between:
+         *     - Cloud Persistence API (data storage) - FIRST
+         *     - Bonita BPM (process automation) - SECOND
          */
         post: operations["create_project_api_v1_projects_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/projects/{project_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Project
+         * @description Get full project details by ID (proxied from Cloud API).
+         *
+         *     This endpoint acts as a proxy to the Cloud Persistence API.
+         *     Used by Bonita process or frontend to fetch project information.
+         *     Returns proyecto with all nested etapas and pedidos.
+         */
+        get: operations["get_project_api_v1_projects__project_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/projects/{project_id}/etapas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Project Etapas
+         * @description List etapas for a project via Cloud API proxy.
+         */
+        get: operations["list_project_etapas_api_v1_projects__project_id__etapas_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/projects/{project_id}/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Start Project
+         * @description Start a project (transition from pendiente to en_ejecucion).
+         *
+         *     Called by Bonita when all etapas are fully funded (all pedidos are COMPROMETIDO or COMPLETADO).
+         *     Cloud API validates that all pedidos are indeed funded before allowing the transition.
+         */
+        post: operations["start_project_api_v1_projects__project_id__start_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -100,6 +525,19 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         /**
+         * EtapaBasicInfo
+         * @description Minimal etapa information for nested pedido data.
+         */
+        EtapaBasicInfo: {
+            /** Id */
+            id?: string | null;
+            /** Nombre */
+            nombre?: string | null;
+            /** Estado */
+            estado?: string | null;
+            proyecto?: components["schemas"]["ProyectoBasicInfo"] | null;
+        };
+        /**
          * EtapaCreate
          * @description Schema for creating an etapa (project stage).
          */
@@ -131,8 +569,93 @@ export interface components {
             pedidos: components["schemas"]["PedidoCreate"][];
         };
         /**
+         * EtapaDetailResponse
+         * @description Single etapa details with pedido counters.
+         */
+        EtapaDetailResponse: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Proyecto Id
+             * Format: uuid
+             */
+            proyecto_id: string;
+            /** Nombre */
+            nombre: string;
+            /** Descripcion */
+            descripcion: string;
+            /**
+             * Fecha Inicio
+             * Format: date
+             */
+            fecha_inicio: string;
+            /**
+             * Fecha Fin
+             * Format: date
+             */
+            fecha_fin: string;
+            /** Estado */
+            estado: string;
+            /** Pendientes Count */
+            pendientes_count: number;
+            /** Total Pedidos */
+            total_pedidos: number;
+        };
+        /**
+         * EtapaListItem
+         * @description Schema for etapa list item with pedido counts.
+         */
+        EtapaListItem: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Proyecto Id
+             * Format: uuid
+             */
+            proyecto_id: string;
+            /** Nombre */
+            nombre: string;
+            /** Descripcion */
+            descripcion: string;
+            /**
+             * Fecha Inicio
+             * Format: date
+             */
+            fecha_inicio: string;
+            /**
+             * Fecha Fin
+             * Format: date
+             */
+            fecha_fin: string;
+            /** Estado */
+            estado: string;
+            /** Fecha Completitud */
+            fecha_completitud?: string | null;
+            /**
+             * Pedidos
+             * @default []
+             */
+            pedidos: components["schemas"]["PedidoResponse"][];
+            /**
+             * Pedidos Pendientes Count
+             * @default 0
+             */
+            pedidos_pendientes_count: number;
+            /**
+             * Pedidos Total Count
+             * @default 0
+             */
+            pedidos_total_count: number;
+        };
+        /**
          * EtapaResponse
-         * @description Schema for etapa response.
+         * @description Schema for etapa response (from Cloud API).
          */
         EtapaResponse: {
             /**
@@ -160,15 +683,506 @@ export interface components {
              */
             proyecto_id: string;
             /**
+             * Estado
+             * @description Current state of the etapa
+             */
+            estado?: string;
+            /**
+             * Fecha Completitud
+             * Format: date
+             */
+            fecha_completitud?: string | null;
+            /**
              * Pedidos
              * @default []
              */
             pedidos: components["schemas"]["PedidoResponse"][];
         };
+        /**
+         * EtapasListResponse
+         * @description Schema for list response of etapas.
+         */
+        EtapasListResponse: {
+            /** Etapas */
+            etapas: components["schemas"]["EtapaListItem"][];
+            /** Total */
+            total: number;
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
+        };
+        /** MetricsCommitmentContributor */
+        MetricsCommitmentContributor: {
+            /**
+             * User Id
+             * Format: uuid
+             */
+            user_id: string;
+            /** Nombre */
+            nombre: string;
+            /** Apellido */
+            apellido: string;
+            /** Ong */
+            ong: string;
+            /** Ofertas Realizadas */
+            ofertas_realizadas: number;
+            /** Ofertas Aceptadas */
+            ofertas_aceptadas: number;
+            /** Tasa Aceptacion */
+            tasa_aceptacion: number;
+        };
+        /** MetricsCommitmentsResponse */
+        MetricsCommitmentsResponse: {
+            /** Total Pedidos */
+            total_pedidos: number;
+            /** Pedidos Con Ofertas */
+            pedidos_con_ofertas: number;
+            /** Cobertura Ofertas Porcentaje */
+            cobertura_ofertas_porcentaje: number;
+            /** Total Ofertas */
+            total_ofertas: number;
+            /** Ofertas Aceptadas */
+            ofertas_aceptadas: number;
+            /** Ofertas Pendientes */
+            ofertas_pendientes: number;
+            /** Tasa Aceptacion Porcentaje */
+            tasa_aceptacion_porcentaje: number;
+            /** Tiempo Respuesta Promedio Dias */
+            tiempo_respuesta_promedio_dias: number;
+            /** Top Contribuidores */
+            top_contribuidores: components["schemas"]["MetricsCommitmentContributor"][];
+            /** Valor Total Solicitado */
+            valor_total_solicitado: number;
+            /** Valor Total Comprometido */
+            valor_total_comprometido: number;
+        };
+        /** MetricsDashboardResponse */
+        MetricsDashboardResponse: {
+            /** Proyectos Por Estado */
+            proyectos_por_estado: {
+                [key: string]: number;
+            };
+            /** Total Proyectos */
+            total_proyectos: number;
+            /** Proyectos Activos */
+            proyectos_activos: number;
+            /** Proyectos Listos Para Iniciar */
+            proyectos_listos_para_iniciar: number;
+            /** Tasa Exito */
+            tasa_exito: number;
+        };
+        /** MetricsPerformanceResponse */
+        MetricsPerformanceResponse: {
+            /** Tiempo Promedio Etapa Dias */
+            tiempo_promedio_etapa_dias: number;
+            /** Tiempo Inicio Promedio Dias */
+            tiempo_inicio_promedio_dias: number;
+            /** Proyectos Pendientes Mas 30 Dias */
+            proyectos_pendientes_mas_30_dias: number;
+            /** Observaciones Total */
+            observaciones_total: number;
+            /** Observaciones Resueltas */
+            observaciones_resueltas: number;
+            /** Observaciones Pendientes */
+            observaciones_pendientes: number;
+            /** Observaciones Vencidas */
+            observaciones_vencidas: number;
+            /** Tiempo Resolucion Observaciones Promedio Dias */
+            tiempo_resolucion_observaciones_promedio_dias: number;
+        };
+        /** MetricsProjectStageStatus */
+        MetricsProjectStageStatus: {
+            /**
+             * Etapa Id
+             * Format: uuid
+             */
+            etapa_id: string;
+            /** Nombre */
+            nombre: string;
+            /** Total Pedidos */
+            total_pedidos: number;
+            /** Pedidos Completados */
+            pedidos_completados: number;
+            /** Pedidos Pendientes */
+            pedidos_pendientes: number;
+            /** Progreso Porcentaje */
+            progreso_porcentaje: number;
+            /** Dias Planificados */
+            dias_planificados: number;
+            /** Dias Transcurridos */
+            dias_transcurridos: number;
+        };
+        /** MetricsProjectTrackingResponse */
+        MetricsProjectTrackingResponse: {
+            /**
+             * Proyecto Id
+             * Format: uuid
+             */
+            proyecto_id: string;
+            /** Titulo */
+            titulo: string;
+            /** Estado */
+            estado: string;
+            /** Etapas */
+            etapas: components["schemas"]["MetricsProjectStageStatus"][];
+            /** Total Pedidos */
+            total_pedidos: number;
+            /** Pedidos Completados */
+            pedidos_completados: number;
+            /** Pedidos Pendientes */
+            pedidos_pendientes: number;
+            /** Progreso Global Porcentaje */
+            progreso_global_porcentaje: number;
+            /** Observaciones Pendientes */
+            observaciones_pendientes: number;
+            /** Observaciones Resueltas */
+            observaciones_resueltas: number;
+            /** Observaciones Vencidas */
+            observaciones_vencidas: number;
+            /** Puede Iniciar */
+            puede_iniciar: boolean;
+        };
+        /**
+         * ObservacionListItem
+         * @description Extended observacion entry returned on the global listing.
+         */
+        ObservacionListItem: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Proyecto Id
+             * Format: uuid
+             */
+            proyecto_id: string;
+            /**
+             * Council User Id
+             * Format: uuid
+             */
+            council_user_id: string;
+            /** Descripcion */
+            descripcion: string;
+            /** Estado */
+            estado: string;
+            /**
+             * Fecha Limite
+             * Format: date
+             */
+            fecha_limite: string;
+            /** Respuesta */
+            respuesta?: string | null;
+            /** Fecha Resolucion */
+            fecha_resolucion?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            /** Council User Email */
+            council_user_email?: string | null;
+            /** Council User Ong */
+            council_user_ong?: string | null;
+            /** Council User Nombre */
+            council_user_nombre?: string | null;
+            proyecto?: components["schemas"]["ObservacionProjectInfo"] | null;
+            council_user?: components["schemas"]["ObservacionUserInfo"] | null;
+            executor_user?: components["schemas"]["ObservacionUserInfo"] | null;
+        };
+        /**
+         * ObservacionProjectInfo
+         * @description Project metadata included in paginated observacion listings.
+         */
+        ObservacionProjectInfo: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Titulo */
+            titulo: string;
+            /** Estado */
+            estado: string;
+        };
+        /**
+         * ObservacionResolveRequest
+         * @description Payload used when resolving an observacion.
+         */
+        ObservacionResolveRequest: {
+            /**
+             * Respuesta
+             * @description Respuesta del ejecutor (mínimo 10 caracteres)
+             */
+            respuesta: string;
+        };
+        /**
+         * ObservacionResponse
+         * @description Represents a council observation entry from the Cloud API.
+         */
+        ObservacionResponse: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Proyecto Id
+             * Format: uuid
+             */
+            proyecto_id: string;
+            /**
+             * Council User Id
+             * Format: uuid
+             */
+            council_user_id: string;
+            /** Descripcion */
+            descripcion: string;
+            /** Estado */
+            estado: string;
+            /**
+             * Fecha Limite
+             * Format: date
+             */
+            fecha_limite: string;
+            /** Respuesta */
+            respuesta?: string | null;
+            /** Fecha Resolucion */
+            fecha_resolucion?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            /** Council User Email */
+            council_user_email?: string | null;
+            /** Council User Ong */
+            council_user_ong?: string | null;
+            /** Council User Nombre */
+            council_user_nombre?: string | null;
+        };
+        /**
+         * ObservacionUserInfo
+         * @description Minimal representation of a council/executor user.
+         */
+        ObservacionUserInfo: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Email */
+            email: string;
+            /** Ong */
+            ong: string;
+            /** Nombre */
+            nombre: string;
+            /** Apellido */
+            apellido?: string | null;
+        };
+        /**
+         * ObservacionesPaginatedResponse
+         * @description Paginated response for the GET /observaciones endpoint.
+         */
+        ObservacionesPaginatedResponse: {
+            /** Items */
+            items: components["schemas"]["ObservacionListItem"][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Page Size */
+            page_size: number;
+            /** Pages */
+            pages: number;
+            /** Total Pages */
+            total_pages: number;
+        };
+        /**
+         * OfertaConfirmationResponse
+         * @description Payload returned when confirming an oferta realization.
+         */
+        OfertaConfirmationResponse: {
+            /** Message */
+            message: string;
+            /** Success */
+            success: boolean;
+            /**
+             * Oferta Id
+             * Format: uuid
+             */
+            oferta_id: string;
+            /** Oferta Estado */
+            oferta_estado: string;
+            /**
+             * Pedido Id
+             * Format: uuid
+             */
+            pedido_id: string;
+            /** Pedido Estado Anterior */
+            pedido_estado_anterior: string;
+            /** Pedido Estado Nuevo */
+            pedido_estado_nuevo: string;
+            /**
+             * Confirmed At
+             * Format: date-time
+             */
+            confirmed_at: string;
+        };
+        /**
+         * OfertaCreate
+         * @description Payload for creating an oferta.
+         */
+        OfertaCreate: {
+            /** Descripcion */
+            descripcion: string;
+            /** Monto Ofrecido */
+            monto_ofrecido?: number | null;
+        };
+        /**
+         * OfertaDetailedResponse
+         * @description Oferta enriched with nested pedido (and etapa) details.
+         */
+        OfertaDetailedResponse: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Pedido Id
+             * Format: uuid
+             */
+            pedido_id: string;
+            /**
+             * User Id
+             * Format: uuid
+             */
+            user_id: string;
+            /** Descripcion */
+            descripcion: string;
+            /** Monto Ofrecido */
+            monto_ofrecido?: number | null;
+            /** Estado */
+            estado: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            user?: components["schemas"]["OfertaUserSummary"] | null;
+            pedido?: components["schemas"]["PedidoDetailedInfo"] | null;
+        };
+        /**
+         * OfertaEvaluationRequest
+         * @description Payload for evaluating an oferta (accept/reject) via Bonita.
+         */
+        OfertaEvaluationRequest: {
+            /**
+             * Decision
+             * @description Decision: accept or reject
+             */
+            decision: string;
+        };
+        /**
+         * OfertaResponse
+         * @description Oferta returned by the Cloud API.
+         */
+        OfertaResponse: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Pedido Id
+             * Format: uuid
+             */
+            pedido_id: string;
+            /**
+             * User Id
+             * Format: uuid
+             */
+            user_id: string;
+            /** Descripcion */
+            descripcion: string;
+            /** Monto Ofrecido */
+            monto_ofrecido?: number | null;
+            /** Estado */
+            estado: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            user?: components["schemas"]["OfertaUserSummary"] | null;
+        };
+        /**
+         * OfertaUpdate
+         * @description Payload for updating an oferta.
+         */
+        OfertaUpdate: {
+            /** Descripcion */
+            descripcion?: string | null;
+            /** Monto Ofrecido */
+            monto_ofrecido?: number | null;
+        };
+        /**
+         * OfertaUserSummary
+         * @description Minimal info about the user who created the oferta.
+         */
+        OfertaUserSummary: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Email */
+            email: string;
+            /** Nombre */
+            nombre: string;
+            /** Apellido */
+            apellido: string;
+            /** Ong */
+            ong: string;
+        };
+        /**
+         * PaginatedProyectoResponse
+         * @description Paginated response metadata for project listings.
+         */
+        PaginatedProyectoResponse: {
+            /** Items */
+            items: components["schemas"]["ProyectoListItem"][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Page Size */
+            page_size: number;
+            /** Total Pages */
+            total_pages: number;
         };
         /**
          * PedidoCreate
@@ -177,7 +1191,7 @@ export interface components {
         PedidoCreate: {
             /**
              * Tipo
-             * @description economico|materiales|mano_obra
+             * @description economico|materiales|mano_obra|transporte|equipamiento
              */
             tipo: string;
             /**
@@ -207,8 +1221,32 @@ export interface components {
             unidad?: string | null;
         };
         /**
+         * PedidoDetailedInfo
+         * @description Pedido with nested etapa info for richer oferta responses.
+         */
+        PedidoDetailedInfo: {
+            /** Id */
+            id?: string | null;
+            /** Tipo */
+            tipo?: string | null;
+            /** Descripcion */
+            descripcion?: string | null;
+            /** Estado */
+            estado?: string | null;
+            /** Monto */
+            monto?: number | null;
+            /** Moneda */
+            moneda?: string | null;
+            /** Cantidad */
+            cantidad?: number | null;
+            /** Unidad */
+            unidad?: string | null;
+            etapa?: components["schemas"]["EtapaBasicInfo"] | null;
+            proyecto?: components["schemas"]["ProyectoBasicInfo"] | null;
+        };
+        /**
          * PedidoResponse
-         * @description Schema for pedido response.
+         * @description Schema for pedido response (from Cloud API).
          */
         PedidoResponse: {
             /**
@@ -220,6 +1258,8 @@ export interface components {
             tipo: string;
             /** Descripcion */
             descripcion: string;
+            /** Estado */
+            estado: string;
             /** Monto */
             monto?: number | null;
             /** Moneda */
@@ -233,6 +1273,69 @@ export interface components {
              * Format: uuid
              */
             etapa_id: string;
+            /** Proyecto Id */
+            proyecto_id?: string | null;
+            /** Created At */
+            created_at?: string | null;
+            /** Updated At */
+            updated_at?: string | null;
+        };
+        /**
+         * PedidoUpdate
+         * @description Schema for updating a pedido.
+         */
+        PedidoUpdate: {
+            /**
+             * Tipo
+             * @description economico|materiales|mano_obra|transporte|equipamiento
+             */
+            tipo?: string | null;
+            /**
+             * Descripcion
+             * @description Description of the request
+             */
+            descripcion?: string | null;
+            /**
+             * Monto
+             * @description Amount (for economico)
+             */
+            monto?: number | null;
+            /**
+             * Moneda
+             * @description Currency code (for economico)
+             */
+            moneda?: string | null;
+            /**
+             * Cantidad
+             * @description Quantity (for materiales/mano_obra)
+             */
+            cantidad?: number | null;
+            /**
+             * Unidad
+             * @description Unit (for materiales/mano_obra)
+             */
+            unidad?: string | null;
+        };
+        /**
+         * ProyectoBasicInfo
+         * @description Minimal project information to support future nested responses.
+         */
+        ProyectoBasicInfo: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Titulo */
+            titulo: string;
+            /** Tipo */
+            tipo?: string | null;
+            /** Ciudad */
+            ciudad?: string | null;
+            /** Provincia */
+            provincia?: string | null;
+            /** Estado */
+            estado?: string | null;
         };
         /**
          * ProyectoCreate
@@ -294,8 +1397,49 @@ export interface components {
             message: string;
         };
         /**
+         * ProyectoListItem
+         * @description Summary schema returned by the list endpoint.
+         */
+        ProyectoListItem: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Titulo */
+            titulo: string;
+            /** Descripcion */
+            descripcion: string;
+            /** Tipo */
+            tipo: string;
+            /** Estado */
+            estado: string;
+            /** Pais */
+            pais: string;
+            /** Provincia */
+            provincia: string;
+            /** Ciudad */
+            ciudad: string;
+            /** Barrio */
+            barrio?: string | null;
+            /** Bonita Case Id */
+            bonita_case_id?: string | null;
+            /** Bonita Process Instance Id */
+            bonita_process_instance_id?: number | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /**
          * ProyectoResponse
-         * @description Schema for proyecto response.
+         * @description Schema for proyecto response (from Cloud API).
          */
         ProyectoResponse: {
             /**
@@ -324,21 +1468,117 @@ export interface components {
             /** Bonita Process Instance Id */
             bonita_process_instance_id?: number | null;
             /**
-             * Fecha Creacion
+             * Created At
              * Format: date-time
              */
-            fecha_creacion: string;
+            created_at: string;
             /**
-             * Fecha Actualizacion
+             * Updated At
              * Format: date-time
              */
-            fecha_actualizacion: string;
+            updated_at: string;
             /**
              * Etapas
              * @default []
              */
             etapas: components["schemas"]["EtapaResponse"][];
         };
+        /**
+         * TokenPair
+         * @description Bearer token pair returned by the Cloud API.
+         */
+        TokenPair: {
+            /** Access Token */
+            access_token: string;
+            /** Refresh Token */
+            refresh_token: string;
+            /**
+             * Token Type
+             * @default bearer
+             * @constant
+             */
+            token_type: "bearer";
+        };
+        /**
+         * TokenRefreshRequest
+         * @description Refresh token request payload.
+         */
+        TokenRefreshRequest: {
+            /** Refresh Token */
+            refresh_token: string;
+        };
+        /**
+         * UserCreate
+         * @description Payload for creating/registering a user.
+         */
+        UserCreate: {
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Password */
+            password: string;
+            /** Ong */
+            ong: string;
+            /** Nombre */
+            nombre: string;
+            /** Apellido */
+            apellido: string;
+            role?: components["schemas"]["UserRole"] | null;
+        };
+        /**
+         * UserLogin
+         * @description Login payload forwarded to the Cloud API.
+         */
+        UserLogin: {
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Password */
+            password: string;
+        };
+        /**
+         * UserResponse
+         * @description User data returned by the API.
+         */
+        UserResponse: {
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Ong */
+            ong: string;
+            /** Nombre */
+            nombre: string;
+            /** Apellido */
+            apellido: string;
+            role: components["schemas"]["UserRole"];
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /**
+         * UserRole
+         * @description Available roles returned by the Cloud API.
+         * @enum {string}
+         */
+        UserRole: "MEMBER" | "COUNCIL";
         /** ValidationError */
         ValidationError: {
             /** Location */
@@ -357,7 +1597,126 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    get_project_api_v1_projects__project_id__get: {
+    register_user_api_v1_auth_register_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    login_user_api_v1_auth_login_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserLogin"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TokenPair"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    refresh_token_api_v1_auth_refresh_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TokenRefreshRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TokenPair"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_metrics_dashboard_api_v1_metrics_dashboard_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetricsDashboardResponse"];
+                };
+            };
+        };
+    };
+    get_project_tracking_metrics_api_v1_metrics_projects__project_id__tracking_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -374,7 +1733,695 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ProyectoResponse"];
+                    "application/json": components["schemas"]["MetricsProjectTrackingResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_commitments_metrics_api_v1_metrics_commitments_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetricsCommitmentsResponse"];
+                };
+            };
+        };
+    };
+    get_system_performance_metrics_api_v1_metrics_performance_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MetricsPerformanceResponse"];
+                };
+            };
+        };
+    };
+    get_authenticated_profile_api_v1_users_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserResponse"];
+                };
+            };
+        };
+    };
+    get_etapa_api_v1_etapas__etapa_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                etapa_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EtapaDetailResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_pedido_for_etapa_api_v1_projects__project_id__etapas__etapa_id__pedidos_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                project_id: string;
+                etapa_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PedidoCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PedidoResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_project_pedidos_api_v1_projects__project_id__pedidos_get: {
+        parameters: {
+            query?: {
+                /** @description Filter pedidos by estado */
+                estado?: string | null;
+            };
+            header?: never;
+            path: {
+                project_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PedidoResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_pedido_api_v1_pedidos__pedido_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                pedido_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PedidoResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_pedido_api_v1_pedidos__pedido_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                pedido_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_pedido_api_v1_pedidos__pedido_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                pedido_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PedidoUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PedidoResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_ofertas_for_pedido_api_v1_pedidos__pedido_id__ofertas_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                pedido_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfertaResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_oferta_for_pedido_api_v1_pedidos__pedido_id__ofertas_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                pedido_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OfertaCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfertaResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_my_ofertas_api_v1_ofertas_mis_ofertas_get: {
+        parameters: {
+            query?: {
+                /** @description Filter by oferta state (pendiente, aceptada, rechazada). */
+                estado_oferta?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfertaDetailedResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_oferta_api_v1_ofertas__oferta_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oferta_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfertaResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_oferta_api_v1_ofertas__oferta_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oferta_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_oferta_api_v1_ofertas__oferta_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oferta_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OfertaUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfertaResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    evaluate_oferta_api_v1_ofertas__oferta_id__evaluate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oferta_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OfertaEvaluationRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfertaResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    confirm_oferta_realizacion_api_v1_ofertas__oferta_id__confirmar_realizacion_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                oferta_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OfertaConfirmationResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_observaciones_api_v1_observaciones_get: {
+        parameters: {
+            query?: {
+                /** @description Page number (starts at 1) */
+                page?: number;
+                /** @description Items per page */
+                page_size?: number;
+                /** @description Filter by estado */
+                estado?: string | null;
+                /** @description Filter by associated project ID */
+                proyecto_id?: string | null;
+                /** @description Filter by council member creator */
+                council_user_id?: string | null;
+                /** @description Search in descripcion/respuesta (min 3 chars) */
+                search?: string | null;
+                /** @description Only include observaciones created after this date */
+                fecha_desde?: string | null;
+                /** @description Only include observaciones created before this date */
+                fecha_hasta?: string | null;
+                /** @description Field used for sorting */
+                sort_by?: "created_at" | "fecha_limite" | "fecha_resolucion" | "updated_at";
+                /** @description Sort direction (asc or desc) */
+                sort_order?: "asc" | "desc";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservacionesPaginatedResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_project_observaciones_api_v1_projects__project_id__observaciones_get: {
+        parameters: {
+            query?: {
+                /** @description Filter observations by estado */
+                estado?: string | null;
+            };
+            header?: never;
+            path: {
+                project_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservacionResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    resolve_observacion_api_v1_observaciones__observacion_id__resolve_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                observacion_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ObservacionResolveRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ObservacionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_projects_api_v1_projects_get: {
+        parameters: {
+            query?: {
+                /** @description Page number (starts at 1) */
+                page?: number;
+                /** @description Items per page */
+                page_size?: number;
+                /** @description Filter by project status */
+                estado?: string | null;
+                /** @description Filter by project type (partial match, case-insensitive) */
+                tipo?: string | null;
+                /** @description Filter by country (partial match, case-insensitive) */
+                pais?: string | null;
+                /** @description Filter by province (partial match, case-insensitive) */
+                provincia?: string | null;
+                /** @description Filter by city (partial match, case-insensitive) */
+                ciudad?: string | null;
+                /** @description Search in title and description (case-insensitive) */
+                search?: string | null;
+                /** @description Filter by project owner (user ID) */
+                user_id?: string | null;
+                /** @description Only show current user's projects (overrides user_id) */
+                my_projects?: boolean;
+                /** @description Field to sort by */
+                sort_by?: "created_at" | "updated_at" | "titulo";
+                /** @description Sort direction (asc or desc) */
+                sort_order?: "asc" | "desc";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedProyectoResponse"];
                 };
             };
             /** @description Validation Error */
@@ -408,6 +2455,102 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ProyectoCreateResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_project_api_v1_projects__project_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                project_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProyectoResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_project_etapas_api_v1_projects__project_id__etapas_get: {
+        parameters: {
+            query?: {
+                /** @description Filter etapas by estado */
+                estado?: string | null;
+            };
+            header?: never;
+            path: {
+                project_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EtapasListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    start_project_api_v1_projects__project_id__start_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                project_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProyectoResponse"];
                 };
             };
             /** @description Validation Error */

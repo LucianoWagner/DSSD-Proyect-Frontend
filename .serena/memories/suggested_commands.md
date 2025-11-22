@@ -1,0 +1,5 @@
+- Install deps: `pnpm install`.
+- Local dev server: `pnpm dev` (Next.js App Router on http://localhost:3000).
+- Production build: `pnpm build`.
+- Linting: `pnpm lint`.
+- Type checking: `pnpm typecheck`.

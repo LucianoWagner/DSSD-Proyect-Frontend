@@ -17,7 +17,6 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { Icon } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
@@ -31,7 +30,7 @@ type NavItem = {
 	items?: {
 		title: string;
 		url: string;
-		icon?: Icon;
+		icon?: LucideIcon;
 		badge?: string;
 	}[];
 };

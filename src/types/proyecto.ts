@@ -1,5 +1,3 @@
-import { TriggerConfig } from "react-hook-form";
-
 export type TipoPedidoCobertura =
 	| "economico"
 	| "materiales"
@@ -23,6 +21,8 @@ export type EtapaProyecto = {
 	descripcion: string;
 	fecha_inicio: string;
 	fecha_fin: string;
+	estado?: string;
+	fecha_completitud?: string | null;
 	pedidos: PedidoCobertura[];
 };
 

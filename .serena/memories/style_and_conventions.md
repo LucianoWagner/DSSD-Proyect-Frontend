@@ -1,0 +1,5 @@
+- Components in PascalCase, routes in kebab-case, utilities camelCase, non-component files kebab-case.
+- Use Tailwind exclusively; follow shadcn/ui composition; avoid custom CSS unless unavoidable.
+- Keep code server-first and type-safe (no `any` unless justified) with strict TS; follow shadcn form primitives with react-hook-form + Zod.
+- Enforce accessibility: semantic tags, aria attributes, keyboard navigation, maintain color contrast.
+- Centralized API interactions through `src/lib` fetcher; never fetch directly inside components, and never hardcode secrets (use env validation in `lib/env.ts`).

@@ -2,10 +2,10 @@
 "use client";
 
 import { useState } from "react";
-import { useFormContext, UseFormReturn } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Trash2, FolderOpen } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Plus, FolderOpen } from "lucide-react";
 import { EtapaCard } from "../etapa-card";
 import { EtapaDialog } from "../etapa-dialog";
 import type { EtapaProyecto } from "@/types/proyecto";

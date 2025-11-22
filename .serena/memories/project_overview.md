@@ -1,0 +1,6 @@
+- Next.js App Router frontend for ProjectPlanning that serves NGOs (members), council administrators, and reviewers via a proxy API.
+- TypeScript, Tailwind CSS, shadcn/ui, lucide-react, pnpm toolchain; server components by default with client components only when hooks/events are needed.
+- Source structure: `src/app` for routes/layouts, `src/components` for reusable UI, `src/lib` for utilities/api/env/schemas, `src/hooks` for client hooks, `src/types` for domain types.
+- All API calls must go through the centralized fetcher in `src/lib` which talks only to the Proxy API that mediates Bonita BPM and the Cloud API.
+- Forms rely on react-hook-form + Zod validation, and the UI follows shadcn patterns; accessibility (semantic HTML, aria, keyboard support, color contrast) is mandatory.
+- Server-first mindset: prefer server-side data fetching and avoid unnecessary "use client" declarations.

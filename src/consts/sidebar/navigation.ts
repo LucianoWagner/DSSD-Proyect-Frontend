@@ -2,7 +2,6 @@ import {
 	Bell,
 	Calendar,
 	CheckCircle2,
-	Clock,
 	Clock3,
 	Eye,
 	FolderOpen,
@@ -12,7 +11,34 @@ import {
 	Target,
 	TrendingUp,
 	Workflow,
+	BarChart3,
+	FileText,
+	Shield,
+	Search,
+	Heart,
+	AlertTriangle,
+	type LucideIcon,
 } from "lucide-react";
+import type { Role } from "@/types/auth";
+
+export interface NavSubItem {
+	title: string;
+	url: string;
+	icon: LucideIcon;
+	badge?: string;
+}
+
+export interface NavItem {
+	title: string;
+	url?: string;
+	icon: LucideIcon;
+	badge?: string;
+	items?: NavSubItem[];
+	roles?: Role[]; // If undefined, visible to all roles
+}
+
+// MEMBER (ONGs) - Can collaborate, create projects, manage their projects
+// COUNCIL (Directivos) - Can view metrics, make observations, review all projects
 
 export const SIDEBAR_ITEMS = {
 	navMain: [
@@ -20,79 +46,115 @@ export const SIDEBAR_ITEMS = {
 			title: "Dashboard",
 			url: "/dashboard",
 			icon: LayoutDashboard,
+			// Visible to all roles
 		},
 		{
-			title: "Proyectos",
+			title: "Mis Proyectos",
 			icon: FolderOpen,
+			roles: ["MEMBER"], // Only MEMBER can create/manage projects
 			items: [
 				{
-					title: "Todos los Proyectos",
+					title: "Ver Todos",
 					url: "/proyectos",
 					icon: FolderOpen,
 				},
 				{
-					title: "Nuevo proyecto",
+					title: "Crear Proyecto",
 					url: "/proyectos/nuevo",
 					icon: FolderPlus,
 				},
 				{
-					title: "En Planificacion",
-					url: "/proyectos/planificacion",
-					icon: Clock3,
-					badge: "12",
-				},
-				{
-					title: "En Ejecucion",
-					url: "/proyectos/ejecucion",
-					icon: Workflow,
-					badge: "8",
+					title: "Ofertas Recibidas",
+					url: "/proyectos/ofertas",
+					icon: HandHeart,
 				},
 			],
 		},
 		{
-			title: "Colaboraciones",
-			icon: HandHeart, // 🤝❤️ Mano con corazón (ayuda)
+			title: "Colaborar",
+			icon: HandHeart,
+			roles: ["MEMBER"], // Only MEMBER can collaborate
 			items: [
 				{
-					title: "Pedidos Activos",
-					url: "/pedidos",
-					icon: Target, // 🎯 Objetivo/meta
-					badge: "5",
+					title: "Explorar Proyectos",
+					url: "/colaboraciones",
+					icon: Search,
 				},
 				{
-					title: "Mis Compromisos",
-					url: "/compromisos",
-					icon: CheckCircle2, // ✅ Check círculo
-				},
-				{
-					title: "Notificaciones",
-					url: "/notificaciones",
-					icon: Bell, // 🔔 Campana clásica
-					badge: "3",
+					title: "Mis Ofertas Enviadas",
+					url: "/colaboraciones/compromisos",
+					icon: Heart,
 				},
 			],
 		},
 		{
 			title: "Seguimiento",
-			icon: Eye, // 👁️ Ojo para vigilar/monitorear
+			icon: TrendingUp,
+			roles: ["MEMBER"], // Only MEMBER tracks their projects
 			items: [
 				{
 					title: "Proyectos en Curso",
 					url: "/seguimiento/proyectos",
-					icon: TrendingUp, // 📈 Tendencia hacia arriba
+					icon: Eye,
 				},
 				{
 					title: "Control Quincenal",
 					url: "/seguimiento/control",
-					icon: Calendar, // 📅 Calendario
-					badge: "2",
-				},
-				{
-					title: "Cronograma",
-					url: "/seguimiento/cronograma",
-					icon: Clock, // 🕐 Reloj simple
+					icon: Calendar,
 				},
 			],
 		},
-	],
+		{
+			title: "Métricas",
+			icon: BarChart3,
+			roles: ["COUNCIL"], // Only COUNCIL can view metrics
+			items: [
+				{
+					title: "Resumen General",
+					url: "/metricas/resumen",
+					icon: BarChart3,
+				},
+				{
+					title: "Proyectos por ONG",
+					url: "/metricas/por-ong",
+					icon: TrendingUp,
+				},
+				{
+					title: "Reportes",
+					url: "/metricas/reportes",
+					icon: FileText,
+				},
+			],
+		},
+		{
+			title: "Observaciones",
+			icon: FileText,
+			roles: ["COUNCIL", "MEMBER"], // COUNCIL creates, MEMBER resolves
+			items: [
+				{
+					title: "Panel Principal",
+					url: "/observaciones",
+					icon: FileText,
+				},
+			],
+		},
+		{
+			title: "Revisión de Proyectos",
+			icon: Shield,
+			roles: ["COUNCIL"], // Only COUNCIL can review all projects
+			items: [
+				{
+					title: "Todos los Proyectos",
+					url: "/revision/proyectos",
+					icon: FolderOpen,
+				},
+				{
+					title: "Aprobaciones Pendientes",
+					url: "/revision/aprobaciones",
+					icon: CheckCircle2,
+					badge: "4",
+				},
+			],
+		},
+	] as NavItem[],
 };
