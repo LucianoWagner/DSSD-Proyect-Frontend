@@ -1,22 +1,14 @@
 import {
-	Bell,
-	Calendar,
-	CheckCircle2,
-	Clock3,
-	Eye,
 	FolderOpen,
 	FolderPlus,
 	HandHeart,
 	LayoutDashboard,
-	Target,
 	TrendingUp,
-	Workflow,
 	BarChart3,
 	FileText,
-	Shield,
 	Search,
 	Heart,
-	AlertTriangle,
+	PlusCircle,
 	type LucideIcon,
 } from "lucide-react";
 import type { Role } from "@/types/auth";
@@ -26,6 +18,7 @@ export interface NavSubItem {
 	url: string;
 	icon: LucideIcon;
 	badge?: string;
+	roles?: Role[];
 }
 
 export interface NavItem {
@@ -88,23 +81,6 @@ export const SIDEBAR_ITEMS = {
 			],
 		},
 		{
-			title: "Seguimiento",
-			icon: TrendingUp,
-			roles: ["MEMBER"], // Only MEMBER tracks their projects
-			items: [
-				{
-					title: "Proyectos en Curso",
-					url: "/seguimiento/proyectos",
-					icon: Eye,
-				},
-				{
-					title: "Control Quincenal",
-					url: "/seguimiento/control",
-					icon: Calendar,
-				},
-			],
-		},
-		{
 			title: "Métricas",
 			icon: BarChart3,
 			roles: ["COUNCIL"], // Only COUNCIL can view metrics
@@ -115,8 +91,8 @@ export const SIDEBAR_ITEMS = {
 					icon: BarChart3,
 				},
 				{
-					title: "Proyectos por ONG",
-					url: "/metricas/por-ong",
+					title: "Proyectos (métricas)",
+					url: "/metricas/proyectos",
 					icon: TrendingUp,
 				},
 				{
@@ -132,27 +108,22 @@ export const SIDEBAR_ITEMS = {
 			roles: ["COUNCIL", "MEMBER"], // COUNCIL creates, MEMBER resolves
 			items: [
 				{
-					title: "Panel Principal",
+					title: "Observaciones Enviadas",
 					url: "/observaciones",
 					icon: FileText,
-				},
-			],
-		},
-		{
-			title: "Revisión de Proyectos",
-			icon: Shield,
-			roles: ["COUNCIL"], // Only COUNCIL can review all projects
-			items: [
-				{
-					title: "Todos los Proyectos",
-					url: "/revision/proyectos",
-					icon: FolderOpen,
+					roles: ["COUNCIL"],
 				},
 				{
-					title: "Aprobaciones Pendientes",
-					url: "/revision/aprobaciones",
-					icon: CheckCircle2,
-					badge: "4",
+					title: "Observaciones Recibidas",
+					url: "/observaciones",
+					icon: FileText,
+					roles: ["MEMBER"],
+				},
+				{
+					title: "Crear Nueva Observación",
+					url: "/observaciones/crear",
+					icon: PlusCircle,
+					roles: ["COUNCIL"],
 				},
 			],
 		},

@@ -19,17 +19,33 @@ import type { Role } from "@/types/auth";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const { user } = useAuth();
 
-	// Filter navigation items based on user role
+	const isVisibleForRole = (allowedRoles: Role[] | undefined, userRole?: Role) => {
+		if (!allowedRoles || allowedRoles.length === 0) return Boolean(userRole);
+		if (!userRole) return false;
+		return allowedRoles.includes(userRole);
+	};
+
+	// Filter navigation items (and subitems) based on user role
 	const filterNavItemsByRole = (items: NavItem[], userRole?: Role): NavItem[] => {
 		if (!userRole) return [];
 
-		return items.filter((item) => {
-			// If no roles specified, item is visible to all
-			if (!item.roles || item.roles.length === 0) return true;
+		return items
+			.map((item) => {
+				if (!isVisibleForRole(item.roles, userRole)) return null;
 
-			// Check if user's role is in the allowed roles
-			return item.roles.includes(userRole);
-		});
+				if (item.items) {
+					const filteredSubItems = item.items.filter((subItem) =>
+						isVisibleForRole(subItem.roles, userRole)
+					);
+
+					if (filteredSubItems.length === 0) return null;
+
+					return { ...item, items: filteredSubItems };
+				}
+
+				return item;
+			})
+			.filter(Boolean) as NavItem[];
 	};
 
 	const filteredNavItems = filterNavItemsByRole(SIDEBAR_ITEMS.navMain, user?.role);
