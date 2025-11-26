@@ -50,6 +50,7 @@ export interface PedidoBasic {
   tipo: string;
   descripcion: string;
   estado: string;
+  ya_oferto?: boolean;
   monto?: number | null;
   moneda?: string | null;
   cantidad?: number | null;
@@ -154,6 +155,7 @@ export interface ProjectListFilters {
   ciudad?: string;
   search?: string;
   my_projects?: boolean;
+  exclude_my_projects?: boolean;
   sort_by?: "created_at" | "updated_at" | "titulo";
   sort_order?: "asc" | "desc";
 }

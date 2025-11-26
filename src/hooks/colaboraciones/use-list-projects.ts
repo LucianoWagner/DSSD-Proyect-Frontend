@@ -32,6 +32,7 @@ export function useListProjects(filters: ProjectListFilters = {}) {
             ciudad: filters.ciudad,
             search: filters.search,
             my_projects: filters.my_projects,
+            exclude_my_projects: filters.exclude_my_projects,
             sort_by: filters.sort_by,
             sort_order: filters.sort_order,
           },
@@ -64,6 +65,7 @@ export function useProjectsPendientesCount() {
             page_size: 1,
             estado: "pendiente",
             my_projects: false,
+            exclude_my_projects: true,
           },
         },
       });

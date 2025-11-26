@@ -41,6 +41,8 @@ export function ProjectFilters({
     onFiltersChange({
       page: 1,
       page_size: filters.page_size,
+      my_projects: filters.my_projects,
+      exclude_my_projects: filters.exclude_my_projects,
     });
   };
 

@@ -15,6 +15,7 @@ interface PedidoItemProps {
     tipo: string;
     descripcion: string;
     estado: string;
+    ya_oferto?: boolean;
     monto?: number | null;
     moneda?: string | null;
     cantidad?: number | null;
@@ -95,9 +96,18 @@ export function PedidoItem({
             size="sm"
             className="w-full"
             onClick={onHacerOferta}
+            disabled={pedido.ya_oferto}
           >
-            Hacer Oferta
+            {pedido.ya_oferto ? "Ya ofertaste" : "Hacer Oferta"}
           </Button>
+        </CardFooter>
+      )}
+
+      {pedido.ya_oferto && pedido.estado === "PENDIENTE" && (
+        <CardFooter className="pt-0">
+          <p className="text-xs text-muted-foreground w-full text-center">
+            Ya enviaste una oferta para este pedido.
+          </p>
         </CardFooter>
       )}
 

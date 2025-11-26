@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import { useGetProjectDetail } from "@/hooks/colaboraciones/use-get-project-detail";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -189,7 +189,15 @@ export default function ProyectoDetailPage({ params }: PageProps) {
 		}
 	};
 
-	const etapas = proyecto?.etapas ?? [];
+	const etapas = useMemo(() => {
+		if (!proyecto?.etapas) return [];
+		return [...proyecto.etapas].sort((a, b) => {
+			const aDate = a.fecha_inicio ? new Date(a.fecha_inicio).getTime() : 0;
+			const bDate = b.fecha_inicio ? new Date(b.fecha_inicio).getTime() : 0;
+			if (aDate !== bDate) return aDate - bDate;
+			return a.nombre.localeCompare(b.nombre);
+		});
+	}, [proyecto?.etapas]);
 	const totalEtapas = etapas.length;
 	const completedEtapas = etapas.filter(
 		(etapa) => normalizeEstado(etapa.estado) === "completada"
@@ -662,7 +670,7 @@ export default function ProyectoDetailPage({ params }: PageProps) {
 
 				{/* Etapas Tab */}
 				<TabsContent value="etapas" className="space-y-6">
-					{!proyecto.etapas || proyecto.etapas.length === 0 ? (
+					{!etapas || etapas.length === 0 ? (
 						<Card>
 							<CardContent className="py-12">
 								<div className="flex flex-col items-center justify-center text-center">
@@ -678,7 +686,7 @@ export default function ProyectoDetailPage({ params }: PageProps) {
 						</Card>
 					) : (
 						<div className="space-y-6">
-							{proyecto.etapas.map((etapa, index) => {
+							{etapas.map((etapa, index) => {
 								const etapaEstado = normalizeEstado(etapa.estado);
 								const pedidosEtapa = etapa.pedidos ?? [];
 								const pedidosPendEtapa = pedidosEtapa.filter(

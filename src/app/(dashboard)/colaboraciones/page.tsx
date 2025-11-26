@@ -23,12 +23,21 @@ export default function IntercambiosPage() {
     page: 1,
     page_size: 12,
     my_projects: false, // No mostrar mis propios proyectos
+    exclude_my_projects: true,
   });
   const { user } = useAuth();
   const isMember = user?.role === "MEMBER";
 
   const filtersWithRole = useMemo(
-    () => (isMember ? { ...filters, estado: "pendiente" } : filters),
+    () =>
+      isMember
+        ? {
+            ...filters,
+            estado: "pendiente",
+            my_projects: false,
+            exclude_my_projects: true,
+          }
+        : filters,
     [filters, isMember]
   );
 
@@ -117,7 +126,13 @@ export default function IntercambiosPage() {
               type={hasActiveFilters ? "no-results" : "no-projects"}
               onAction={
                 hasActiveFilters
-                  ? () => setFilters({ page: 1, page_size: 12 })
+                  ? () =>
+                      setFilters({
+                        page: 1,
+                        page_size: 12,
+                        my_projects: false,
+                        exclude_my_projects: true,
+                      })
                   : undefined
               }
               actionLabel={hasActiveFilters ? "Limpiar filtros" : undefined}
