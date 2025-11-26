@@ -49,7 +49,7 @@ const projectStateConfig: ChartConfig = {
 const observacionesConfig: ChartConfig = {
   pendientes: { label: "Pendientes", color: "var(--chart-1)" },
   resueltas: { label: "Resueltas", color: "var(--chart-2)" },
-  vencidas: { label: "Vencidas", color: "var(--chart-5)" },
+  vencidas: { label: "Vencidas", color: "var(--destructive)" },
 };
 
 const commitmentsConfig: ChartConfig = {
@@ -138,7 +138,17 @@ export default function MetricsResumenPage() {
       key: "pendientes",
     },
     { name: "Resueltas", value: performance?.observaciones_resueltas ?? 0, key: "resueltas" },
-    { name: "Vencidas", value: performance?.observaciones_vencidas ?? 0, key: "vencidas" },
+    {
+      name: "Vencidas",
+      value: performance
+        ? Math.max(
+          0,
+          performance.observaciones_total -
+          (performance.observaciones_pendientes + performance.observaciones_resueltas)
+        )
+        : 0,
+      key: "vencidas",
+    },
   ];
 
   const monetaryCoverage = [
@@ -203,9 +213,9 @@ export default function MetricsResumenPage() {
           loading={loadingDashboard}
         />
         <StatTile
-          title="Listos para iniciar"
-          value={dashboard?.proyectos_listos_para_iniciar ?? 0}
-          helper="Sin bloqueos pendientes"
+          title="Proyectos Finalizados"
+          value={dashboard?.proyectos_por_estado?.finalizado ?? 0}
+          helper="Ciclo completo cerrado"
           icon={<Target className="h-5 w-5" />}
           accent="amber"
           loading={loadingDashboard}
@@ -299,7 +309,7 @@ export default function MetricsResumenPage() {
               <div className="rounded-lg border p-3">
                 <p className="text-xs text-muted-foreground">Tiempo prom. resolución</p>
                 <p className="text-lg font-semibold">
-                  {performance?.tiempo_resolucion_observaciones_promedio_dias ?? 0} días
+                  {Math.abs(performance?.tiempo_resolucion_observaciones_promedio_dias ?? 0).toFixed(1)} días
                 </p>
               </div>
               <div className="rounded-lg border p-3">
