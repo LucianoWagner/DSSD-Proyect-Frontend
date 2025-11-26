@@ -45,14 +45,11 @@ export function useCreateObservacion() {
       return result as Observacion;
     },
     onSuccess: (data) => {
-      // Invalidate observations queries
-      queryClient.invalidateQueries({ queryKey: ["observaciones"] });
-
-      // Invalidate project queries
+      // Invalidate any observation list (with filters) to refresh
+      queryClient.invalidateQueries({ queryKey: ["observaciones"], exact: false });
+      // Invalidate project-related caches
       queryClient.invalidateQueries({ queryKey: ["projects", data.proyecto_id] });
-
-      // Invalidate observations stats
-      queryClient.invalidateQueries({ queryKey: ["observacion-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["observacion-stats"], exact: false });
     },
   });
 }

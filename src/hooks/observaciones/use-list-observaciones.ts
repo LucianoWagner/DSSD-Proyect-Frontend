@@ -54,7 +54,8 @@ export function useListObservaciones(filters?: ObservacionFilters) {
       const data = await response.json();
       return data as ObservacionListResponse;
     },
-    staleTime: 1000 * 60 * 2, // 2 minutes
+    staleTime: 0, // Always consider stale to refetch on mount/navigation
+    refetchOnMount: "always",
     retry: 1,
   });
 }
