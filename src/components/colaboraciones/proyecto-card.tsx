@@ -45,7 +45,7 @@ export function ProyectoCard({
   };
 
   const isOwner = variant === "owner";
-  const buttonText = isOwner ? "Gestionar Proyecto" : "Ver Ofertas";
+  const buttonText = isOwner ? "Gestionar Proyecto" : "Colaborar";
   const buttonVariant = isOwner ? "default" : "outline";
 
   return (

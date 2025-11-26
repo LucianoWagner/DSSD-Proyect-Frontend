@@ -360,35 +360,44 @@ export default function DashboardPage() {
 					<CardHeader className="flex items-center justify-between space-y-0">
 						<div>
 							<CardTitle>Alertas y próximos pasos</CardTitle>
-							<CardDescription>Acciones sugeridas según métricas.</CardDescription>
+							<CardDescription>Prioridades para Council según métricas actuales.</CardDescription>
 						</div>
 					</CardHeader>
 					<CardContent className="grid gap-3 md:grid-cols-3">
 						<div className="rounded-lg border p-4">
-							<p className="text-sm font-medium">Cobertura baja</p>
-							<p className="text-xs text-muted-foreground">
-								Revisá pedidos sin ofertas y activá campañas de comunidad.
+							<p className="text-sm font-medium">Observaciones a revisar</p>
+							<p className="text-lg font-semibold">
+								{performanceMetrics?.observaciones_pendientes ?? 0} pendientes
 							</p>
-							<Button className="mt-3" variant="outline" size="sm" asChild>
-								<a href="/colaboraciones">Ver pedidos</a>
-							</Button>
-						</div>
-						<div className="rounded-lg border p-4">
-							<p className="text-sm font-medium">Observaciones pendientes</p>
 							<p className="text-xs text-muted-foreground">
-								Coordinar con ejecutores para resolver antes del vencimiento.
+								Enviá seguimiento o recordatorios antes del vencimiento.
 							</p>
 							<Button className="mt-3" variant="outline" size="sm" asChild>
 								<a href="/observaciones">Ir a observaciones</a>
 							</Button>
 						</div>
 						<div className="rounded-lg border p-4">
-							<p className="text-sm font-medium">Pendientes &gt; 30 días</p>
+							<p className="text-sm font-medium">Proyectos en riesgo</p>
+							<p className="text-lg font-semibold">
+								{dashboardMetrics?.proyectos_en_riesgo ?? performanceMetrics?.proyectos_pendientes_mas_30_dias ?? 0}
+							</p>
 							<p className="text-xs text-muted-foreground">
-								Desbloqueá proyectos atrapados para mejorar la tasa de inicio.
+								Revisá métricas y envía observaciones para desbloquearlos.
 							</p>
 							<Button className="mt-3" size="sm" asChild>
-								<a href="/metricas/proyectos">Revisar proyectos</a>
+								<a href="/metricas/proyectos">Ver métricas de proyectos</a>
+							</Button>
+						</div>
+						<div className="rounded-lg border p-4">
+							<p className="text-sm font-medium">Reportes ejecutivos</p>
+							<p className="text-lg font-semibold">
+								Cobertura {commitmentsMetrics?.cobertura_ofertas_porcentaje?.toFixed?.(0) ?? 0}%
+							</p>
+							<p className="text-xs text-muted-foreground">
+								Consultá el resumen y descarga insights para el consejo.
+							</p>
+							<Button className="mt-3" variant="outline" size="sm" asChild>
+								<a href="/metricas/reportes">Abrir reportes</a>
 							</Button>
 						</div>
 					</CardContent>

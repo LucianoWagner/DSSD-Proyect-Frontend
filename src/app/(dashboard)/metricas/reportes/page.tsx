@@ -1,30 +1,14 @@
 "use client";
 
 import {
-    BarChart3,
-    CheckCircle2,
     Clock,
     Download,
     FileText,
     HandHeart,
     TrendingUp,
-    Users,
     AlertTriangle,
     Check,
-    X,
 } from "lucide-react";
-import {
-    CartesianGrid,
-    Line,
-    LineChart,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis,
-    BarChart,
-    Bar,
-    Cell,
-} from "recharts";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -42,52 +26,79 @@ import {
     useCommitmentsMetrics,
     usePerformanceMetrics,
 } from "@/hooks/metrics/use-metrics";
-import { cn } from "@/lib/utils";
-import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+
+const pedidoTipoLabels: Record<string, string> = {
+    economico: "Económico",
+    materiales: "Materiales",
+    mano_obra: "Mano de obra",
+    transporte: "Transporte",
+    equipamiento: "Equipamiento",
+};
 
 export default function ReportsPage() {
     const { data: commitments, isLoading: loadingCommitments } = useCommitmentsMetrics();
     const { data: performance, isLoading: loadingPerformance } = usePerformanceMetrics();
 
-    // Datos simulados para gráficos de tendencia (ya que la API devuelve snapshots actuales)
-    const trendData = [
-        { month: "Ene", valor: 45 },
-        { month: "Feb", valor: 52 },
-        { month: "Mar", valor: 48 },
-        { month: "Abr", valor: 61 },
-        { month: "May", valor: 55 },
-        { month: "Jun", valor: 67 },
-    ];
+    const pedidoTipos = ["economico", "materiales", "mano_obra", "transporte", "equipamiento"];
+    const pedidosPorTipo = pedidoTipos
+        .map((tipo) => ({
+            key: tipo,
+            name: pedidoTipoLabels[tipo] ?? tipo,
+            value: commitments?.pedidos_por_tipo?.[tipo] ?? 0,
+        }))
+        .filter((item) => item.value > 0);
+
+    const coberturaPorTipo = pedidoTipos
+        .map((tipo) => ({
+            key: tipo,
+            name: pedidoTipoLabels[tipo] ?? tipo,
+            value: commitments?.cobertura_por_tipo?.[tipo] ?? 0,
+        }))
+        .filter((item) => item.value > 0);
+
+    const distribucionPedidos = pedidoTipos
+        .map((tipo) => ({
+            key: tipo,
+            name: pedidoTipoLabels[tipo] ?? tipo,
+            value: performance?.distribucion_pedidos_por_tipo?.[tipo] ?? 0,
+        }))
+        .filter((item) => item.value > 0);
 
     const handlePrint = () => {
         window.print();
     };
 
     return (
-        <div className="container mx-auto space-y-8 p-6 animate-in fade-in duration-500">
+        <div className="container mx-auto space-y-8 p-6">
             {/* Header */}
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-                        Reportes Ejecutivos
-                    </h1>
-                    <p className="text-muted-foreground">
-                        Análisis detallado de rendimiento y participación comunitaria.
-                    </p>
+            <div className="rounded-3xl border-2 border-gradient bg-gradient-to-br from-slate-900/5 via-blue-50/10 to-cyan-50/10 p-8 backdrop-blur-sm">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                            <div className="h-2 w-2 rounded-full bg-blue-500" />
+                            <p className="text-xs uppercase tracking-[0.3em] font-semibold text-blue-600">Análisis Profundo</p>
+                        </div>
+                        <h1 className="text-4xl font-bold leading-tight bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+                            Reportes Ejecutivos
+                        </h1>
+                        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                            Análisis detallado de rendimiento operativo, participación comunitaria y métricas de impacto del portafolio.
+                        </p>
+                    </div>
+                    <Button onClick={handlePrint} className="gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 whitespace-nowrap">
+                        <Download className="h-4 w-4" />
+                        Exportar PDF
+                    </Button>
                 </div>
-                <Button onClick={handlePrint} variant="outline" className="gap-2">
-                    <Download className="h-4 w-4" />
-                    Exportar PDF
-                </Button>
             </div>
 
             <Tabs defaultValue="commitments" className="space-y-6">
-                <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
-                    <TabsTrigger value="commitments" className="gap-2">
+                <TabsList className="grid w-full grid-cols-2 lg:w-auto gap-2 bg-slate-100 p-2 rounded-lg">
+                    <TabsTrigger value="commitments" className="gap-2 rounded-md data-[state=active]:bg-white data-[state=active]:shadow-sm">
                         <HandHeart className="h-4 w-4" />
                         Compromisos
                     </TabsTrigger>
-                    <TabsTrigger value="performance" className="gap-2">
+                    <TabsTrigger value="performance" className="gap-2 rounded-md data-[state=active]:bg-white data-[state=active]:shadow-sm">
                         <TrendingUp className="h-4 w-4" />
                         Rendimiento
                     </TabsTrigger>
@@ -96,148 +107,150 @@ export default function ReportsPage() {
                 {/* Tab: Compromisos */}
                 <TabsContent value="commitments" className="space-y-6">
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">
-                                    Total Solicitado
+                        <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100/30 shadow-md">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-xs uppercase font-semibold text-purple-700">
+                                    Pedidos totales
                                 </CardTitle>
-                                <span className="text-muted-foreground">$</span>
                             </CardHeader>
                             <CardContent>
                                 {loadingCommitments ? (
-                                    <Skeleton className="h-8 w-24" />
+                                    <Skeleton className="h-10 w-32" />
                                 ) : (
-                                    <div className="text-2xl font-bold">
-                                        ${commitments?.valor_total_solicitado?.toLocaleString()}
-                                    </div>
+                                    <>
+                                        <div className="text-3xl font-bold text-purple-900">
+                                            {commitments?.total_pedidos ?? 0}
+                                        </div>
+                                        <p className="text-xs text-purple-600 mt-2 font-medium">
+                                            Pedidos registrados en el portafolio
+                                        </p>
+                                    </>
                                 )}
-                                <p className="text-xs text-muted-foreground">
-                                    Valor monetario total
-                                </p>
                             </CardContent>
                         </Card>
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">
-                                    Total Comprometido
+                        <Card className="border-2 border-green-200 bg-gradient-to-br from-green-50 to-green-100/30 shadow-md">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-xs uppercase font-semibold text-green-700">
+                                    Cobertura de ofertas
                                 </CardTitle>
-                                <CheckCircle2 className="h-4 w-4 text-green-500" />
                             </CardHeader>
                             <CardContent>
                                 {loadingCommitments ? (
-                                    <Skeleton className="h-8 w-24" />
+                                    <Skeleton className="h-10 w-32" />
                                 ) : (
-                                    <div className="text-2xl font-bold text-green-600">
-                                        ${commitments?.valor_total_comprometido?.toLocaleString()}
-                                    </div>
+                                    <>
+                                        <div className="text-3xl font-bold text-green-900">
+                                            {commitments?.cobertura_ofertas_porcentaje?.toFixed(1) ?? 0}%
+                                        </div>
+                                        <p className="text-xs text-green-600 mt-2 font-medium">
+                                            Con oferta: {commitments?.pedidos_con_ofertas ?? 0} pedidos
+                                        </p>
+                                    </>
                                 )}
-                                <p className="text-xs text-muted-foreground">
-                                    Ofertas aceptadas
-                                </p>
                             </CardContent>
                         </Card>
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">
-                                    Tasa de Cobertura
+                        <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100/30 shadow-md">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-xs uppercase font-semibold text-blue-700">
+                                    Tasa de aceptación
                                 </CardTitle>
-                                <BarChart3 className="h-4 w-4 text-blue-500" />
                             </CardHeader>
                             <CardContent>
                                 {loadingCommitments ? (
-                                    <Skeleton className="h-8 w-24" />
+                                    <Skeleton className="h-10 w-32" />
                                 ) : (
-                                    <div className="text-2xl font-bold text-blue-600">
-                                        {commitments?.cobertura_ofertas_porcentaje?.toFixed(1)}%
-                                    </div>
+                                    <>
+                                        <div className="text-3xl font-bold text-blue-900">
+                                            {commitments?.tasa_aceptacion_porcentaje?.toFixed(1) ?? 0}%
+                                        </div>
+                                        <p className="text-xs text-blue-600 mt-2 font-medium">
+                                            Ofertas aceptadas vs. totales
+                                        </p>
+                                    </>
                                 )}
-                                <p className="text-xs text-muted-foreground">
-                                    Del valor solicitado
-                                </p>
                             </CardContent>
                         </Card>
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">
-                                    Tasa de Aceptación
+                        <Card className="border-2 border-pink-200 bg-gradient-to-br from-pink-50 to-pink-100/30 shadow-md">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-xs uppercase font-semibold text-pink-700">
+                                    Tiempo de respuesta
                                 </CardTitle>
-                                <Users className="h-4 w-4 text-purple-500" />
                             </CardHeader>
                             <CardContent>
                                 {loadingCommitments ? (
-                                    <Skeleton className="h-8 w-24" />
+                                    <Skeleton className="h-10 w-32" />
                                 ) : (
-                                    <div className="text-2xl font-bold text-purple-600">
-                                        {commitments?.tasa_aceptacion_porcentaje?.toFixed(1)}%
-                                    </div>
+                                    <>
+                                        <div className="text-3xl font-bold text-pink-900">
+                                            {commitments?.tiempo_respuesta_promedio_dias ?? 0}d
+                                        </div>
+                                        <p className="text-xs text-pink-600 mt-2 font-medium">
+                                            Promedio de la comunidad
+                                        </p>
+                                    </>
                                 )}
-                                <p className="text-xs text-muted-foreground">
-                                    Ofertas exitosas
-                                </p>
                             </CardContent>
                         </Card>
                     </div>
 
                     <div className="grid gap-6 md:grid-cols-7">
-                        <Card className="md:col-span-4">
+                        <Card className="md:col-span-4 border-2 border-slate-200 shadow-md">
                             <CardHeader>
-                                <CardTitle>Top Contribuidores</CardTitle>
+                                <CardTitle className="text-xl">Top Contribuidores</CardTitle>
                                 <CardDescription>
-                                    Usuarios y ONGs con mayor impacto en la red.
+                                    Integrantes más activos de la red comunitaria.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
                                 {loadingCommitments ? (
                                     <div className="space-y-4">
-                                        <Skeleton className="h-12 w-full" />
-                                        <Skeleton className="h-12 w-full" />
-                                        <Skeleton className="h-12 w-full" />
+                                        <Skeleton className="h-16 w-full rounded-lg" />
+                                        <Skeleton className="h-16 w-full rounded-lg" />
+                                        <Skeleton className="h-16 w-full rounded-lg" />
                                     </div>
                                 ) : (
-                                    <div className="space-y-6">
+                                    <div className="space-y-4">
                                         {commitments?.top_contribuidores?.map((contributor, i) => (
                                             <div
                                                 key={contributor.user_id}
-                                                className="flex items-center justify-between space-x-4"
+                                                className="flex items-center justify-between rounded-lg border-l-4 border-l-blue-500 bg-gradient-to-r from-blue-50 to-transparent p-4 hover:shadow-md transition-shadow"
                                             >
-                                                <div className="flex items-center space-x-4">
-                                                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 font-bold text-slate-700">
+                                                <div className="flex items-center gap-4 flex-1 min-w-0">
+                                                    <div className={`flex h-10 w-10 items-center justify-center rounded-full font-bold text-white text-sm ${
+                                                        i === 0 ? "bg-gradient-to-r from-yellow-400 to-yellow-500" :
+                                                        i === 1 ? "bg-gradient-to-r from-slate-400 to-slate-500" :
+                                                        i === 2 ? "bg-gradient-to-r from-orange-400 to-orange-500" :
+                                                        "bg-blue-500"
+                                                    }`}>
                                                         {i + 1}
                                                     </div>
-                                                    <div>
-                                                        <p className="text-sm font-medium leading-none">
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-sm font-semibold leading-none truncate">
                                                             {contributor.nombre} {contributor.apellido}
                                                         </p>
-                                                        <p className="text-xs text-muted-foreground">
+                                                        <p className="text-xs text-muted-foreground truncate">
                                                             {contributor.ong}
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <div className="flex items-center gap-4 text-sm">
-                                                    <div className="text-right">
-                                                        <p className="font-medium">
-                                                            {contributor.ofertas_realizadas} ofertas
-                                                        </p>
-                                                        <p className="text-xs text-muted-foreground">
-                                                            {contributor.ofertas_aceptadas} aceptadas
-                                                        </p>
-                                                    </div>
-                                                    <Badge
-                                                        variant={
-                                                            contributor.tasa_aceptacion > 50
-                                                                ? "default"
-                                                                : "secondary"
-                                                        }
-                                                    >
-                                                        {contributor.tasa_aceptacion.toFixed(0)}% éxito
-                                                    </Badge>
-                                                </div>
+                                                <Badge
+                                                    className={`ml-4 whitespace-nowrap ${
+                                                        contributor.tasa_aceptacion > 60
+                                                            ? "bg-green-500 text-white"
+                                                            : contributor.tasa_aceptacion > 40
+                                                            ? "bg-blue-500 text-white"
+                                                            : "bg-orange-500 text-white"
+                                                    }`}
+                                                >
+                                                    {contributor.tasa_aceptacion.toFixed(0)}%
+                                                </Badge>
                                             </div>
                                         ))}
                                         {(!commitments?.top_contribuidores ||
                                             commitments.top_contribuidores.length === 0) && (
-                                                <div className="py-8 text-center text-muted-foreground">
-                                                    No hay datos de contribuidores aún.
+                                                <div className="rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 py-8 text-center text-sm text-muted-foreground">
+                                                    <p className="font-medium">Sin contribuidores</p>
+                                                    <p className="text-xs mt-1">Las ofertas aparecerán aquí cuando se registren.</p>
                                                 </div>
                                             )}
                                     </div>
@@ -253,50 +266,68 @@ export default function ReportsPage() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-6">
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="text-muted-foreground">Pedidos totales</span>
-                                        <span className="font-medium">
-                                            {commitments?.total_pedidos}
-                                        </span>
-                                    </div>
-                                    <Separator />
-                                </div>
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="text-muted-foreground">
-                                            Pedidos con ofertas
-                                        </span>
-                                        <span className="font-medium">
-                                            {commitments?.pedidos_con_ofertas}
-                                        </span>
-                                    </div>
-                                    <Separator />
-                                </div>
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="text-muted-foreground">
-                                            Ofertas pendientes
-                                        </span>
-                                        <span className="font-medium text-amber-600">
-                                            {commitments?.ofertas_pendientes}
-                                        </span>
-                                    </div>
-                                    <Separator />
-                                </div>
+                                {loadingCommitments ? (
+                                    <Skeleton className="h-[200px] w-full" />
+                                ) : (
+                                    <>
+                                        <div className="space-y-3">
+                                            <div className="flex items-center justify-between text-sm">
+                                                <span className="text-muted-foreground">Tiempo de respuesta promedio</span>
+                                                <span className="font-medium">
+                                                    {commitments?.tiempo_respuesta_promedio_dias ?? 0} días
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center justify-between text-sm">
+                                                <span className="text-muted-foreground">Tasa de aceptación</span>
+                                                <span className="font-medium">
+                                                    {commitments?.tasa_aceptacion_porcentaje?.toFixed(1) ?? 0}%
+                                                </span>
+                                            </div>
+                                        </div>
 
+                                        <Separator />
 
-                                <div className="rounded-lg bg-slate-50 p-4 dark:bg-slate-900">
-                                    <h4 className="mb-2 text-sm font-semibold">Insight</h4>
-                                    <p className="text-xs text-muted-foreground">
-                                        Una tasa de aceptación del{" "}
-                                        <span className="font-medium text-slate-900 dark:text-slate-100">
-                                            {commitments?.tasa_aceptacion_porcentaje?.toFixed(0)}%
-                                        </span>{" "}
-                                        indica que las ofertas están bien alineadas con las
-                                        necesidades de los proyectos.
-                                    </p>
-                                </div>
+                                        <div className="space-y-2">
+                                            <h4 className="text-sm font-semibold">Pedidos por tipo</h4>
+                                            {pedidosPorTipo.length === 0 ? (
+                                                <p className="text-xs text-muted-foreground">Sin desglose por tipo aún.</p>
+                                            ) : (
+                                                <div className="space-y-2">
+                                                    {pedidosPorTipo.map((item) => (
+                                                        <div key={item.key} className="flex items-center justify-between rounded-md border bg-slate-50 px-3 py-2 text-sm">
+                                                            <span className="text-muted-foreground">{item.name}</span>
+                                                            <span className="font-semibold">{item.value}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <h4 className="text-sm font-semibold">Cobertura por tipo</h4>
+                                            {coberturaPorTipo.length === 0 ? (
+                                                <p className="text-xs text-muted-foreground">No hay cobertura por tipo reportada.</p>
+                                            ) : (
+                                                <div className="space-y-2">
+                                                    {coberturaPorTipo.map((item) => (
+                                                        <div key={item.key}>
+                                                            <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                                                <span>{item.name}</span>
+                                                                <span className="font-semibold text-slate-900">{item.value?.toFixed?.(0) ?? 0}%</span>
+                                                            </div>
+                                                            <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                                                                <div
+                                                                    className="h-full rounded-full bg-blue-500"
+                                                                    style={{ width: `${Math.min(item.value ?? 0, 100)}%` }}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </>
+                                )}
                             </CardContent>
                         </Card>
                     </div>
@@ -394,6 +425,15 @@ export default function ReportsPage() {
                                             </span>
                                         </div>
 
+                                        {performance?.tasa_cumplimiento_observaciones !== undefined && (
+                                            <div className="flex items-center justify-between rounded-lg border p-3">
+                                                <span className="text-sm text-muted-foreground">Cumplimiento</span>
+                                                <span className="text-lg font-semibold">
+                                                    {performance.tasa_cumplimiento_observaciones.toFixed(1)}%
+                                                </span>
+                                            </div>
+                                        )}
+
                                         <div className="space-y-4">
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-2">
@@ -443,24 +483,14 @@ export default function ReportsPage() {
                                                     <span className="text-sm">Vencidas</span>
                                                 </div>
                                                 <span className="font-medium text-red-600">
-                                                    {performance
-                                                        ? Math.max(
-                                                            0,
-                                                            performance.observaciones_total -
-                                                            (performance.observaciones_pendientes + performance.observaciones_resueltas)
-                                                        )
-                                                        : 0}
+                                                    {performance?.observaciones_vencidas ?? 0}
                                                 </span>
                                             </div>
                                             <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
                                                 <div
                                                     className="h-full bg-red-500"
                                                     style={{
-                                                        width: `${((Math.max(
-                                                            0,
-                                                            (performance?.observaciones_total ?? 0) -
-                                                            ((performance?.observaciones_pendientes ?? 0) + (performance?.observaciones_resueltas ?? 0))
-                                                        )) /
+                                                        width: `${((performance?.observaciones_vencidas ?? 0) /
                                                             (performance?.observaciones_total || 1)) *
                                                             100
                                                             }%`,
@@ -527,6 +557,39 @@ export default function ReportsPage() {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div className="rounded-lg border p-4">
+                                            <h4 className="mb-2 font-medium">Tiempo respuesta pedidos</h4>
+                                            <p className="text-lg font-bold">
+                                                {performance?.tiempo_respuesta_promedio_pedido_dias ?? 0} días
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                Promedio desde creación hasta completado.
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+
+                        <Card className="col-span-1">
+                            <CardHeader>
+                                <CardTitle>Distribución de pedidos</CardTitle>
+                                <CardDescription>Tipos de pedidos gestionados.</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                {loadingPerformance ? (
+                                    <Skeleton className="h-[200px] w-full" />
+                                ) : distribucionPedidos.length === 0 ? (
+                                    <p className="text-sm text-muted-foreground">No hay pedidos registrados por tipo.</p>
+                                ) : (
+                                    <div className="space-y-2">
+                                        {distribucionPedidos.map((item) => (
+                                            <div key={item.key} className="flex items-center justify-between rounded-md border bg-slate-50 px-3 py-2 text-sm">
+                                                <span className="text-muted-foreground">{item.name}</span>
+                                                <span className="font-semibold">{item.value}</span>
+                                            </div>
+                                        ))}
                                     </div>
                                 )}
                             </CardContent>

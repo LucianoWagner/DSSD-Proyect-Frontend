@@ -12,6 +12,7 @@ import {
   Package,
   ClipboardList,
   Target,
+  Clock,
 } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -40,6 +41,12 @@ const estadoColor: Record<string, string> = {
   pendiente: "border-amber-200 bg-amber-50 text-amber-900",
   en_ejecucion: "border-blue-200 bg-blue-50 text-blue-900",
   finalizado: "border-emerald-200 bg-emerald-50 text-emerald-900",
+};
+
+const estadoSaludCopy: Record<string, string> = {
+  en_tiempo: "En tiempo",
+  retrasado: "Retrasado",
+  completado: "Completado",
 };
 
 const etapaChartConfig: ChartConfig = {
@@ -350,7 +357,7 @@ export default function ProyectoMetricsDetailPage({ params }: PageProps) {
         </TabsContent>
 
         <TabsContent value="metricas" className="space-y-6">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
             <MetricTile
               title="Progreso global"
               value={`${tracking?.progreso_global_porcentaje?.toFixed?.(0) ?? 0}%`}
@@ -376,6 +383,24 @@ export default function ProyectoMetricsDetailPage({ params }: PageProps) {
               value={tracking?.puede_iniciar ? "Sí" : "No"}
               helper="Pedidos sin pendientes"
               icon={<Flag className="h-5 w-5" />}
+              loading={loadingMetrics}
+            />
+            <MetricTile
+              title="Estado de salud"
+              value={tracking?.estado_salud ? (estadoSaludCopy[tracking.estado_salud] ?? tracking.estado_salud) : "Sin datos"}
+              helper="Riesgo del proyecto"
+              icon={<Activity className="h-5 w-5" />}
+              loading={loadingMetrics}
+            />
+            <MetricTile
+              title="Días restantes"
+              value={
+                tracking?.dias_restantes !== undefined && tracking?.dias_restantes !== null
+                  ? tracking.dias_restantes
+                  : "-"
+              }
+              helper="Hasta la fecha límite"
+              icon={<Clock className="h-5 w-5" />}
               loading={loadingMetrics}
             />
           </div>
@@ -428,13 +453,13 @@ export default function ProyectoMetricsDetailPage({ params }: PageProps) {
             </CardHeader>
             <CardContent className="grid gap-4 lg:grid-cols-2">
               <div className="space-y-2 rounded-lg border p-4">
-                <p className="text-xs text-muted-foreground">Tiempo promedio por etapa</p>
-                <p className="text-lg font-semibold">
-                  {tracking?.tiempo_promedio_etapa_dias ?? 0} días
-                </p>
                 <p className="text-xs text-muted-foreground">Pedidos pendientes</p>
                 <p className="text-lg font-semibold">
                   {tracking?.pedidos_pendientes ?? 0}
+                </p>
+                <p className="text-xs text-muted-foreground mt-4">Observaciones totales</p>
+                <p className="text-lg font-semibold">
+                  {(tracking?.observaciones_pendientes ?? 0) + (tracking?.observaciones_resueltas ?? 0) + (tracking?.observaciones_vencidas ?? 0)}
                 </p>
               </div>
               <div className="space-y-3 rounded-lg border p-4">
