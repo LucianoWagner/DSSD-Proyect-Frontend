@@ -4,9 +4,7 @@ import * as React from "react";
 import type { CSSProperties, ReactNode } from "react";
 import {
   Legend,
-  type LegendProps,
   Tooltip,
-  type TooltipProps,
 } from "recharts";
 
 import { cn } from "@/lib/utils";
@@ -35,16 +33,16 @@ type ChartContainerProps = React.HTMLAttributes<HTMLDivElement> & {
 export const ChartContainer = React.forwardRef<HTMLDivElement, ChartContainerProps>(
   ({ config, className, children, ...props }, ref) => {
     const style = React.useMemo(() => {
-      const cssVars: CSSProperties = {};
+      const cssVars: Record<string, string> = {};
 
       for (const [key, value] of Object.entries(config)) {
         const color = value.color ?? value.theme?.light;
         if (color) {
-          cssVars[`--color-${key}` as keyof CSSProperties] = color;
+          cssVars[`--color-${key}`] = color;
         }
       }
 
-      return cssVars;
+      return cssVars as CSSProperties;
     }, [config]);
 
     return (
@@ -64,7 +62,7 @@ ChartContainer.displayName = "ChartContainer";
 /**
  * Minimal tooltip wrapper with a shadcn-styled surface.
  */
-export function ChartTooltip(contentProps?: TooltipProps<number, string>) {
+export function ChartTooltip(contentProps?: React.ComponentProps<typeof Tooltip>) {
   return (
     <Tooltip
       {...contentProps}
@@ -74,14 +72,27 @@ export function ChartTooltip(contentProps?: TooltipProps<number, string>) {
   );
 }
 
-export function ChartTooltipContent({ active, payload, label }: TooltipProps<number, string>) {
-  if (!active || !payload || payload.length === 0) return null;
+interface TooltipContentProps {
+  active?: boolean;
+  payload?: Array<{
+    dataKey?: string;
+    name?: string;
+    color?: string;
+    value?: number | string;
+  }>;
+  label?: string | number;
+}
+
+export function ChartTooltipContent({ active, payload, label }: TooltipContentProps) {
+  const items = payload;
+
+  if (!active || !items || items.length === 0) return null;
 
   return (
     <div className="rounded-md border bg-popover/90 p-3 text-xs shadow-md backdrop-blur">
       {label && <p className="mb-2 text-[11px] uppercase text-muted-foreground">{label}</p>}
       <div className="space-y-1">
-        {payload.map((item) => (
+        {items.map((item) => (
           <div key={item.dataKey} className="flex items-center justify-between gap-2">
             <span className="flex items-center gap-2">
               <span
@@ -98,7 +109,14 @@ export function ChartTooltipContent({ active, payload, label }: TooltipProps<num
   );
 }
 
-export function ChartLegendContent({ payload }: LegendProps) {
+interface LegendContentProps {
+  payload?: Array<{
+    value?: string | number;
+    color?: string;
+  }>;
+}
+
+export function ChartLegendContent({ payload }: LegendContentProps) {
   if (!payload?.length) return null;
 
   return (

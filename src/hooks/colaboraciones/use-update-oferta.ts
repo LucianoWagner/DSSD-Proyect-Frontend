@@ -33,7 +33,7 @@ export function useUpdateOferta() {
               oferta_id: ofertaId,
             },
           },
-          body: data as any,
+          body: data,
         }
       );
 

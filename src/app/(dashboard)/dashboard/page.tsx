@@ -30,6 +30,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useDashboardMetrics, useCommitmentsMetrics, usePerformanceMetrics } from "@/hooks/metrics/use-metrics";
 import type { ProyectoBasic } from "@/types/colaboraciones";
 import type { ObservacionWithRelations } from "@/types/observaciones";
+import Link from "next/link";
 
 type StatCardProps = {
 	title: string;
@@ -184,7 +185,7 @@ export default function DashboardPage() {
 		isLoading: isLoadingObservacionStats,
 	} = useObservacionStats();
 
-	const projects = projectsData?.items ?? [];
+	const projects = useMemo(() => projectsData?.items ?? [], [projectsData?.items]);
 
 	const projectCounts = useMemo(() => {
 		return projects.reduce(
@@ -228,16 +229,16 @@ export default function DashboardPage() {
 						</div>
 						<div className="flex flex-wrap gap-2">
 							<Button asChild variant="outline">
-								<a href="/metricas/resumen">
+								<Link href="/metricas/resumen">
 									<BarChart3 className="mr-2 h-4 w-4" />
 									Ver métricas completas
-								</a>
+								</Link>
 							</Button>
 							<Button asChild>
-								<a href="/metricas/proyectos">
+								<Link href="/metricas/proyectos">
 									<FolderOpen className="mr-2 h-4 w-4" />
 									Proyectos con métricas
-								</a>
+								</Link>
 							</Button>
 						</div>
 					</div>
@@ -373,7 +374,7 @@ export default function DashboardPage() {
 								Enviá seguimiento o recordatorios antes del vencimiento.
 							</p>
 							<Button className="mt-3" variant="outline" size="sm" asChild>
-								<a href="/observaciones">Ir a observaciones</a>
+								<Link href="/observaciones">Ir a observaciones</Link>
 							</Button>
 						</div>
 						<div className="rounded-lg border p-4">
@@ -382,10 +383,10 @@ export default function DashboardPage() {
 								{dashboardMetrics?.proyectos_en_riesgo ?? performanceMetrics?.proyectos_pendientes_mas_30_dias ?? 0}
 							</p>
 							<p className="text-xs text-muted-foreground">
-								Revisá métricas y envía observaciones para desbloquearlos.
+								Revisá métricas y enviá observaciones para desbloquearlos.
 							</p>
 							<Button className="mt-3" size="sm" asChild>
-								<a href="/metricas/proyectos">Ver métricas de proyectos</a>
+								<Link href="/metricas/proyectos">Ver métricas de proyectos</Link>
 							</Button>
 						</div>
 						<div className="rounded-lg border p-4">
@@ -394,10 +395,10 @@ export default function DashboardPage() {
 								Cobertura {commitmentsMetrics?.cobertura_ofertas_porcentaje?.toFixed?.(0) ?? 0}%
 							</p>
 							<p className="text-xs text-muted-foreground">
-								Consultá el resumen y descarga insights para el consejo.
+								Consultá el resumen y descargá insights para el consejo.
 							</p>
 							<Button className="mt-3" variant="outline" size="sm" asChild>
-								<a href="/metricas/reportes">Abrir reportes</a>
+								<Link href="/metricas/reportes">Abrir reportes</Link>
 							</Button>
 						</div>
 					</CardContent>
@@ -421,22 +422,22 @@ export default function DashboardPage() {
 					</div>
 					<div className="flex flex-wrap gap-2">
 						<Button asChild variant="secondary">
-							<a href="/proyectos/nuevo">
+							<Link href="/proyectos/nuevo">
 								<PlusCircle className="mr-2 h-4 w-4" />
 								Crear nuevo proyecto
-							</a>
+							</Link>
 						</Button>
 						<Button asChild variant="outline">
-							<a href="/colaboraciones">
+							<Link href="/colaboraciones">
 								<Rocket className="mr-2 h-4 w-4" />
 								Buscar colaboraciones
-							</a>
+							</Link>
 						</Button>
 						<Button asChild>
-							<a href="/observaciones">
+							<Link href="/observaciones">
 								<ShieldCheck className="mr-2 h-4 w-4" />
 								Observaciones recibidas
-							</a>
+							</Link>
 						</Button>
 					</div>
 				</div>
@@ -484,7 +485,7 @@ export default function DashboardPage() {
 								<CardDescription>Seguimiento rápido de los proyectos que están avanzando.</CardDescription>
 							</div>
 							<Button variant="outline" size="sm" asChild>
-								<a href="/proyectos">Ver todos</a>
+								<Link href="/proyectos">Ver todos</Link>
 							</Button>
 						</CardHeader>
 						<CardContent className="space-y-3">
@@ -496,7 +497,7 @@ export default function DashboardPage() {
 								</div>
 							) : activeProjects.length === 0 ? (
 								<div className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
-									No tenés proyectos en ejecución. Iniciá uno desde "Mis Proyectos".
+									No tenés proyectos en ejecución. Iniciá uno desde &quot;Mis Proyectos&quot;.
 								</div>
 							) : (
 								activeProjects.map((project) => (
@@ -513,7 +514,7 @@ export default function DashboardPage() {
 								<CardDescription>Las que necesitan respuesta antes de su vencimiento.</CardDescription>
 							</div>
 							<Button variant="outline" size="sm" asChild>
-								<a href="/observaciones">Ir a Observaciones</a>
+								<Link href="/observaciones">Ir a Observaciones</Link>
 							</Button>
 						</CardHeader>
 						<CardContent className="space-y-3">

@@ -85,7 +85,7 @@ export function useStartProject() {
 
 	return useMutation<StartProjectResponse, unknown, ProjectActionVariables>({
 		mutationFn: async ({ projectId }) => {
-			const { data, error, response } = await apiClient.POST(
+			const { data, error, response } = await (apiClient.POST as any)(
 				"/api/v1/projects/{project_id}/start",
 				{
 					params: {
@@ -122,7 +122,7 @@ export function useCompleteProject() {
 
 	return useMutation<CompleteProjectResponse, unknown, ProjectActionVariables>({
 		mutationFn: async ({ projectId }) => {
-			const { data, error, response } = await apiClient.POST(
+			const { data, error, response } = await (apiClient.POST as any)(
 				"/api/v1/projects/{project_id}/complete",
 				{
 					params: {
@@ -158,8 +158,8 @@ export function useStartEtapa() {
 	const queryClient = useQueryClient();
 
 	return useMutation<EtapaLifecycleResponse, unknown, EtapaActionVariables>({
-		mutationFn: async ({ projectId, etapaId }) => {
-			const { data, error, response } = await apiClient.POST(
+		mutationFn: async ({ etapaId }) => {
+			const { data, error, response } = await (apiClient.POST as any)(
 				"/api/v1/etapas/{etapa_id}/start",
 				{
 					params: {
@@ -195,8 +195,8 @@ export function useCompleteEtapa() {
 	const queryClient = useQueryClient();
 
 	return useMutation<EtapaLifecycleResponse, unknown, EtapaActionVariables>({
-		mutationFn: async ({ projectId, etapaId }) => {
-			const { data, error, response } = await apiClient.POST(
+		mutationFn: async ({ etapaId }) => {
+			const { data, error, response } = await (apiClient.POST as any)(
 				"/api/v1/etapas/{etapa_id}/complete",
 				{
 					params: {

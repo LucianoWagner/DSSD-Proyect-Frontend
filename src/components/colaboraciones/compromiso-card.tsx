@@ -73,6 +73,28 @@ export function CompromisoCard({
     return compromiso.estado.charAt(0).toUpperCase() + compromiso.estado.slice(1);
   };
 
+  const formatOfertaValor = () => {
+    const tipo = (compromiso.pedido.tipo || "").toLowerCase();
+    const monto = compromiso.monto_ofrecido;
+
+    if (tipo === "economico") {
+      if (monto === undefined || monto === null) return "Monto no especificado";
+      const currency = (compromiso.pedido.moneda as string | undefined) || "ARS";
+      return new Intl.NumberFormat("es-AR", {
+        style: "currency",
+        currency,
+        maximumFractionDigits: 0,
+      }).format(monto);
+    }
+
+    if (monto === undefined || monto === null) {
+      return "Cantidad no especificada";
+    }
+
+    const unidad = compromiso.pedido.unidad ?? "";
+    return `${monto}${unidad ? ` ${unidad}` : ""}`;
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -139,11 +161,9 @@ export function CompromisoCard({
           <p className="text-sm text-muted-foreground">
             {compromiso.descripcion}
           </p>
-          {compromiso.monto_ofrecido && (
-            <p className="text-sm font-medium text-green-600 mt-2">
-              ARS {compromiso.monto_ofrecido.toLocaleString("es-AR")}
-            </p>
-          )}
+          <p className="text-sm font-medium text-green-600 mt-2">
+            {formatOfertaValor()}
+          </p>
         </div>
 
         {/* Fecha */}

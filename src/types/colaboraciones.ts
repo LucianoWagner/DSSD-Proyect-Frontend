@@ -69,6 +69,7 @@ export interface EtapaBasic {
   fecha_inicio?: string;
   fecha_fin?: string;
   estado?: string;
+  pedidos_total_count?: number;
   pedidos: PedidoBasic[];
 }
 

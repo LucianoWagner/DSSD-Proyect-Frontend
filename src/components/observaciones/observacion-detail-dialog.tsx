@@ -16,6 +16,7 @@ import type { ObservacionWithRelations } from "@/types/observaciones";
 import { format, formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import { cn } from "@/lib/utils";
+import type { ComponentType } from "react";
 
 interface ObservacionDetailDialogProps {
   open: boolean;
@@ -35,7 +36,7 @@ export function ObservacionDetailDialog({
   if (!observacion) return null;
 
   const getEstadoBadge = (estado: string) => {
-    const configs: Record<string, { bg: string; text: string; icon: any }> = {
+    const configs: Record<string, { bg: string; text: string; icon: ComponentType<{ className?: string }> }> = {
       pendiente: { bg: "bg-yellow-100", text: "text-yellow-800", icon: AlertTriangle },
       vencida: { bg: "bg-red-100", text: "text-red-800", icon: AlertTriangle },
       resuelta: { bg: "bg-green-100", text: "text-green-800", icon: CheckCircle2 },

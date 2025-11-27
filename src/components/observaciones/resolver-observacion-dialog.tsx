@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { useResolveObservacion } from "@/hooks/observaciones/use-resolve-observacion";
+import { getErrorMessage } from "@/lib/api-error";
 import type { ObservacionWithRelations } from "@/types/observaciones";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -65,8 +66,8 @@ export function ResolverObservacionDialog({
           setRespuesta("");
           onOpenChange(false);
         },
-        onError: (error: any) => {
-          const message = error?.message || "Error al resolver la observación";
+        onError: (error) => {
+          const message = getErrorMessage(error) || "Error al resolver la observación";
           setError(message);
           toast.error(message);
         },

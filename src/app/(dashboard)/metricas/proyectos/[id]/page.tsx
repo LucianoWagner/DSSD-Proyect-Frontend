@@ -4,14 +4,12 @@ import { use } from "react";
 import {
   Activity,
   AlertTriangle,
-  BarChart3,
   CheckCircle2,
   Flag,
   Gauge,
   MapPin,
   Package,
   ClipboardList,
-  Target,
   Clock,
 } from "lucide-react";
 import { format } from "date-fns";

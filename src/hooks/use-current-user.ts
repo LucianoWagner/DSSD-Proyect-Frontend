@@ -24,17 +24,16 @@ export function useCurrentUser() {
   return useQuery({
     queryKey: ["users", "me"],
     queryFn: async (): Promise<CurrentUser> => {
-      const result: any = await apiClient.GET("/api/v1/users/me");
+      const { data, error, response } = await (apiClient.GET as any)(
+        "/api/v1/users/me",
+        {}
+      );
 
-      if (result.error) {
-        throw createApiError(
-          result.error,
-          result.response?.status ?? 500,
-          result.response
-        );
+      if (error) {
+        throw createApiError(error, response?.status ?? 500, response);
       }
 
-      return result.data as CurrentUser;
+      return data as CurrentUser;
     },
     staleTime: 1000 * 60 * 10, // 10 minutes
     retry: 1, // Only retry once on failure

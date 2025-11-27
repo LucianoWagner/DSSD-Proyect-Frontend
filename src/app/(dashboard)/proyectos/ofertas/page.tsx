@@ -37,7 +37,7 @@ export default function OfertasRecibidasPage() {
   const { data: projectsData, isLoading: isProjectsLoading, error: projectsError } = useListProjects(
     projectFilters
   );
-  const projects = projectsData?.items ?? [];
+  const projects = useMemo(() => projectsData?.items ?? [], [projectsData?.items]);
 
   useEffect(() => {
     if (!selectedProjectId && projects.length > 0) {
@@ -75,6 +75,32 @@ export default function OfertasRecibidasPage() {
     () => pedidos?.find((pedido) => pedido.id === selectedPedidoId),
     [pedidos, selectedPedidoId]
   );
+
+  const formatOfertaValor = (oferta: OfertaWithUser) => {
+    if (!selectedPedido) {
+      return oferta.monto_ofrecido ?? "Sin dato";
+    }
+
+    const tipo = (selectedPedido.tipo || "").toLowerCase();
+    const monto = oferta.monto_ofrecido;
+
+    if (tipo === "economico") {
+      if (monto === undefined || monto === null) return "Monto no especificado";
+      const currency = (selectedPedido.moneda as string | undefined) || "ARS";
+      return new Intl.NumberFormat("es-AR", {
+        style: "currency",
+        currency,
+        maximumFractionDigits: 0,
+      }).format(monto);
+    }
+
+    if (monto === undefined || monto === null) {
+      return "Cantidad no especificada";
+    }
+
+    const unidad = selectedPedido.unidad ?? "";
+    return `${monto}${unidad ? ` ${unidad}` : ""}`;
+  };
 
   const handleEvaluate = (ofertaId: string, decision: "accept" | "reject") => {
     evaluateOferta.mutate(
@@ -309,13 +335,7 @@ export default function OfertasRecibidasPage() {
                           {oferta.updated_at ? `Actualizada ${formatDate(oferta.updated_at)}` : "Sin actualización"}
                         </div>
                         <div className="font-semibold">
-                          {oferta.monto_ofrecido
-                            ? new Intl.NumberFormat("es-AR", {
-                                style: "currency",
-                                currency: (selectedPedido?.moneda as string | undefined) || "ARS",
-                                maximumFractionDigits: 0,
-                              }).format(oferta.monto_ofrecido)
-                            : "Monto no especificado"}
+                          {formatOfertaValor(oferta)}
                         </div>
                       </div>
 

@@ -96,7 +96,7 @@ export default function ObservacionesPage() {
   };
 
   // Check if user can resolve (MEMBER role and owns project)
-  const canUserResolve = (observacion: any) => {
+  const canUserResolve = (observacion: ObservacionWithRelations) => {
     if (user?.role !== "MEMBER") return false;
     return observacion.executor_user?.id === user?.id;
   };

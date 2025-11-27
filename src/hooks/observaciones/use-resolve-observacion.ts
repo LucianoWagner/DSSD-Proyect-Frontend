@@ -1,7 +1,6 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiClient } from "@/lib/apiClient";
 import { createApiError } from "@/lib/api-error";
 import type { ResolveObservacionRequest, Observacion } from "@/types/observaciones";
 

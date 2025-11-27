@@ -31,7 +31,16 @@ export function ObservacionStatsCards({
     );
   }
 
-  const cards = [
+  type CardId = "pendiente" | "vencida" | "resuelta" | "all";
+  const cards: {
+    id: CardId;
+    title: string;
+    value: number;
+    icon: typeof Clock | typeof AlertTriangle | typeof CheckCircle2 | typeof FileText;
+    gradient: string;
+    iconColor: string;
+    borderColor: string;
+  }[] = [
     {
       id: "pendiente",
       title: "Pendientes",
@@ -84,7 +93,7 @@ export function ObservacionStatsCards({
               card.borderColor,
               isClickable && "cursor-pointer hover:shadow-lg transition-all hover:scale-105"
             )}
-            onClick={() => isClickable && onClickCard?.(card.id as any)}
+            onClick={() => isClickable && onClickCard?.(card.id)}
           >
             <CardContent className={cn("pt-6 pb-4 bg-gradient-to-br", card.gradient)}>
               <div className="flex items-center justify-between">

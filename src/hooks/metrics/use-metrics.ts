@@ -24,8 +24,8 @@ type CommitmentsMetricsResponse = {
   cobertura_ofertas_porcentaje: number;
   tasa_aceptacion_porcentaje: number;
   tiempo_respuesta_promedio_dias: number;
-  pedidos_por_tipo: Partial<Record<PedidoTipo, number>>;
-  cobertura_por_tipo: Partial<Record<PedidoTipo, number>>;
+  pedidos_por_tipo?: Partial<Record<PedidoTipo, number>>;
+  cobertura_por_tipo?: Partial<Record<PedidoTipo, number>>;
   top_contribuidores: {
     user_id: string;
     nombre: string;
@@ -33,6 +33,11 @@ type CommitmentsMetricsResponse = {
     ong: string;
     tasa_aceptacion: number;
   }[];
+  total_ofertas?: number;
+  ofertas_aceptadas?: number;
+  ofertas_pendientes?: number;
+  valor_total_solicitado?: number;
+  valor_total_comprometido?: number;
 };
 
 type PerformanceMetricsResponse = {
@@ -89,7 +94,8 @@ export function useDashboardMetrics() {
     queryFn: async () => {
       const { data, error, response } = await apiClient.GET("/api/v1/metrics/dashboard", {});
       if (error) {
-        throw createApiError(error, response.status ?? 500, response);
+        const status = (response && 'status' in response) ? (response as { status?: number }).status ?? 500 : 500;
+        throw createApiError(error, status, response);
       }
       return data as DashboardMetricsResponse;
     },
@@ -103,7 +109,8 @@ export function useCommitmentsMetrics() {
     queryFn: async () => {
       const { data, error, response } = await apiClient.GET("/api/v1/metrics/commitments", {});
       if (error) {
-        throw createApiError(error, response.status ?? 500, response);
+        const status = (response && 'status' in response) ? (response as { status?: number }).status ?? 500 : 500;
+        throw createApiError(error, status, response);
       }
       return data as CommitmentsMetricsResponse;
     },
@@ -117,7 +124,8 @@ export function usePerformanceMetrics() {
     queryFn: async () => {
       const { data, error, response } = await apiClient.GET("/api/v1/metrics/performance", {});
       if (error) {
-        throw createApiError(error, response.status ?? 500, response);
+        const status = (response && 'status' in response) ? (response as { status?: number }).status ?? 500 : 500;
+        throw createApiError(error, status, response);
       }
       return data as PerformanceMetricsResponse;
     },
@@ -142,7 +150,8 @@ export function useProjectTrackingMetrics(projectId: string | null) {
       );
 
       if (error) {
-        throw createApiError(error, response.status ?? 500, response);
+        const status = (response && 'status' in response) ? (response as { status?: number }).status ?? 500 : 500;
+        throw createApiError(error, status, response);
       }
 
       return data as ProjectTrackingMetricsResponse;

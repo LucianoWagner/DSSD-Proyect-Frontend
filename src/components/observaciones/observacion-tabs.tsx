@@ -3,7 +3,6 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Flame, Clock, AlertTriangle, CheckCircle2, FileText } from "lucide-react";
-import type { EstadoObservacion } from "@/types/observaciones";
 
 interface ObservacionTabsProps {
   activeTab: string;
