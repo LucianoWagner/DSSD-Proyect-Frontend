@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useListObservaciones } from "@/hooks/observaciones/use-list-observaciones";
 import { useObservacionStats } from "@/hooks/observaciones/use-observacion-stats";
 import { ObservacionStatsCards } from "@/components/observaciones/observacion-stats-cards";
@@ -16,11 +16,14 @@ import { AlertCircle, ChevronLeft, ChevronRight, FileText } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import type { EstadoObservacion, ObservacionWithRelations } from "@/types/observaciones";
 import { differenceInDays } from "date-fns";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useListProjects } from "@/hooks/colaboraciones/use-list-projects";
 
 export default function ObservacionesPage() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<string>("urgentes");
   const [page, setPage] = useState(1);
+  const [projectFilter, setProjectFilter] = useState<string | undefined>(undefined);
   const pageSize = 12;
 
   // Dialog states
@@ -28,8 +31,22 @@ export default function ObservacionesPage() {
   const [resolverDialogOpen, setResolverDialogOpen] = useState(false);
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
 
+  // Project filter options (members: only own; council: all)
+  const { data: projectsData, isLoading: isLoadingProjects } = useListProjects({
+    page: 1,
+    page_size: 50,
+    my_projects: user?.role === "MEMBER" ? true : undefined,
+  });
+  const projectOptions = useMemo(() => projectsData?.items ?? [], [projectsData?.items]);
+
   // Get stats
-  const { data: stats, isLoading: isLoadingStats } = useObservacionStats();
+  const { data: stats, isLoading: isLoadingStats } = useObservacionStats(
+    projectFilter
+      ? {
+          proyecto_id: projectFilter,
+        }
+      : undefined
+  );
 
   // Build filters based on active tab
   const getFilters = () => {
@@ -38,6 +55,7 @@ export default function ObservacionesPage() {
       page_size: pageSize,
       sort_by: "fecha_limite" as const,
       sort_order: "asc" as const,
+      proyecto_id: projectFilter,
     };
 
     if (activeTab === "all") {
@@ -123,6 +141,31 @@ export default function ObservacionesPage() {
             <p className="text-muted-foreground mt-1">
               Gestiona observaciones del consejo y responde a las solicitudes de tus proyectos
             </p>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <div className="w-full max-w-xs">
+            <p className="text-xs text-muted-foreground mb-1">Filtrar por proyecto</p>
+            <Select
+              value={projectFilter ?? "all"}
+              onValueChange={(val) => {
+                setProjectFilter(val === "all" ? undefined : val);
+                setPage(1);
+              }}
+              disabled={isLoadingProjects}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={isLoadingProjects ? "Cargando..." : "Todos los proyectos"} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos los proyectos</SelectItem>
+                {projectOptions.map((proj) => (
+                  <SelectItem key={proj.id} value={proj.id}>
+                    {proj.titulo}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </div>

@@ -41,15 +41,16 @@ export function useResolveObservacion(observacionId: string, projectId?: string)
       return result as Observacion;
     },
     onSuccess: () => {
-      // Invalidate all observations queries
-      queryClient.invalidateQueries({ queryKey: ["observaciones"] });
+      // Invalidate all observations queries (with filters)
+      queryClient.invalidateQueries({ queryKey: ["observaciones"], exact: false });
 
       // Invalidate project queries if projectId provided
       if (projectId) {
         queryClient.invalidateQueries({ queryKey: ["projects", projectId] });
       }
 
-      // Invalidate metrics queries
+      // Invalidate observation stats and metrics
+      queryClient.invalidateQueries({ queryKey: ["observacion-stats"], exact: false });
       queryClient.invalidateQueries({ queryKey: ["metrics"] });
     },
   });
