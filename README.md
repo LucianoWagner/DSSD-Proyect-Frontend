@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ProjectPlanning Frontend 🌐
 
-## Getting Started
+Este es el frontend del sistema de Planificación de Proyectos, una aplicación moderna construida con **Next.js 15 (App Router)** para ofrecer una experiencia de usuario rápida, accesible y robusta.
 
-First, run the development server:
+## 📌 Visión General
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+La plataforma sirve como interfaz centralizada para ONGs, administradores y revisores. Permite la gestión integral de proyectos, desde su propuesta inicial hasta el seguimiento detallado de financiamiento y ejecución de pedidos.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Características Clave:
+-   **Dashboard de Control**: Visualización de métricas y estados de proyectos en tiempo real.
+-   **Gestión de Ofertas**: Interfaz para crear y aceptar ofertas sobre pedidos específicos.
+-   **Seguimiento de Etapas**: Monitoreo visual del progreso de los proyectos y su financiamiento.
+-   **Arquitectura Server-First**: Aprovecha los React Server Components para un rendimiento óptimo.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Stack Tecnológico
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-   **Framework:** Next.js 15 (App Router)
+-   **Lenguaje:** TypeScript (Type-safe estricto)
+-   **Estilos:** Tailwind CSS + shadcn/ui
+-   **Iconografía:** Lucide React
+-   **Formularios:** React Hook Form + Zod
+-   **Gestor de Paquetes:** `pnpm`
 
-## Learn More
+## 🏗️ Integración
 
-To learn more about Next.js, take a look at the following resources:
+El frontend está diseñado para comunicarse **únicamente** con la **Proxy API**. Esta arquitectura desacoplada permite que el frontend se mantenga enfocado en la experiencia de usuario, mientras que la lógica de procesos de negocio (Bonita BPM) y la persistencia (Cloud API) son manejadas por la capa de backend.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚦 Inicio Rápido
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1.  **Instalar dependencias:**
+    ```bash
+    pnpm install
+    ```
 
-## Deploy on Vercel
+2.  **Configurar variables de entorno:**
+    Crea un archivo `.env.local` basado en `.env.template` con la URL de la Proxy API.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3.  **Ejecutar en desarrollo:**
+    ```bash
+    pnpm dev
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📂 Documentación Adicional
+
+Para más detalles técnicos, consulta:
+-   🤖 **[Frontend Guidelines](AGENTS.md)**: Reglas, arquitectura y convenciones de código.
+-   🔌 **[API Documentation](API_DOCUMENTATION.md)**: Referencia de los contratos con la Proxy API.
+
+---
+*Este proyecto fue desarrollado como parte de un trabajo grupal para la materia DSSD.*
